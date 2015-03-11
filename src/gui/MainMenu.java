@@ -14,6 +14,12 @@ import java.awt.FlowLayout;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class MainMenu extends JFrame {
 
@@ -39,29 +45,67 @@ public class MainMenu extends JFrame {
 	 * Create the frame.
 	 */
 	public MainMenu() {
+		setTitle("Auto Registration System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 777, 498);
+		setBounds(100, 100, 598, 492);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{286, 286, 0};
+		gbl_contentPane.rowHeights = new int[]{148, 148, 148, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
 		
-		JPanel panel = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		contentPane.add(panel);
+		JButton vehicle_reg_btn = new JButton("New Vehicle Registration");
+		vehicle_reg_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		GridBagConstraints gbc_vehicle_reg_btn = new GridBagConstraints();
+		gbc_vehicle_reg_btn.fill = GridBagConstraints.BOTH;
+		gbc_vehicle_reg_btn.insets = new Insets(0, 0, 5, 5);
+		gbc_vehicle_reg_btn.gridx = 0;
+		gbc_vehicle_reg_btn.gridy = 0;
+		contentPane.add(vehicle_reg_btn, gbc_vehicle_reg_btn);
 		
-		JPanel panel_1 = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panel_1.getLayout();
-		flowLayout_1.setVgap(20);
-		flowLayout_1.setHgap(20);
-		contentPane.add(panel_1);
+		JButton auto_trans_btn = new JButton("Auto Transaction");
+		GridBagConstraints gbc_auto_trans_btn = new GridBagConstraints();
+		gbc_auto_trans_btn.fill = GridBagConstraints.BOTH;
+		gbc_auto_trans_btn.insets = new Insets(0, 0, 5, 0);
+		gbc_auto_trans_btn.gridx = 1;
+		gbc_auto_trans_btn.gridy = 0;
+		contentPane.add(auto_trans_btn, gbc_auto_trans_btn);
 		
-		JButton btnNewButton = new JButton("Test 2");
-		contentPane.add(btnNewButton);
-		btnNewButton.setSize(20, 20);
+		JButton drive_lic_btn = new JButton("Driver Licence Registration");
+		drive_lic_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		GridBagConstraints gbc_drive_lic_btn = new GridBagConstraints();
+		gbc_drive_lic_btn.fill = GridBagConstraints.BOTH;
+		gbc_drive_lic_btn.insets = new Insets(0, 0, 5, 5);
+		gbc_drive_lic_btn.gridx = 0;
+		gbc_drive_lic_btn.gridy = 1;
+		contentPane.add(drive_lic_btn, gbc_drive_lic_btn);
 		
-		JButton btnTest = new JButton("Test");
-		contentPane.add(btnTest);
+		JButton viol_rec_btn = new JButton("Record Violation");
+		GridBagConstraints gbc_viol_rec_btn = new GridBagConstraints();
+		gbc_viol_rec_btn.fill = GridBagConstraints.BOTH;
+		gbc_viol_rec_btn.insets = new Insets(0, 0, 5, 0);
+		gbc_viol_rec_btn.gridx = 1;
+		gbc_viol_rec_btn.gridy = 1;
+		contentPane.add(viol_rec_btn, gbc_viol_rec_btn);
+		
+		JButton search_btn = new JButton("Search");
+		GridBagConstraints gbc_search_btn = new GridBagConstraints();
+		gbc_search_btn.gridwidth = 2;
+		gbc_search_btn.fill = GridBagConstraints.BOTH;
+		gbc_search_btn.insets = new Insets(0, 0, 0, 5);
+		gbc_search_btn.gridx = 0;
+		gbc_search_btn.gridy = 2;
+		contentPane.add(search_btn, gbc_search_btn);
 	}
 
 }
