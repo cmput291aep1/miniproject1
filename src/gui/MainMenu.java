@@ -6,14 +6,20 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JDialog;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JSpinner;
+
 import java.awt.FlowLayout;
+
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
+
 import javax.swing.SwingConstants;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -28,18 +34,18 @@ public class MainMenu extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainMenu frame = new MainMenu();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					MainMenu frame = new MainMenu();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -47,7 +53,7 @@ public class MainMenu extends JFrame {
 	public MainMenu() {
 		setTitle("Auto Registration System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 598, 492);
+		setBounds(100, 100, 600, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -61,8 +67,15 @@ public class MainMenu extends JFrame {
 		JButton vehicle_reg_btn = new JButton("New Vehicle Registration");
 		vehicle_reg_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JDialog dialog = new JDialog();
+				dialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+				dialog.getContentPane().add(new VehicleRegPanel());
+				dialog.setTitle("New Vehicle Registration Form");
+				dialog.pack();
+				dialog.setVisible(true);
 			}
 		});
+		
 		GridBagConstraints gbc_vehicle_reg_btn = new GridBagConstraints();
 		gbc_vehicle_reg_btn.fill = GridBagConstraints.BOTH;
 		gbc_vehicle_reg_btn.insets = new Insets(0, 0, 5, 5);
