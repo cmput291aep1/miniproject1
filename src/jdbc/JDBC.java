@@ -44,6 +44,7 @@ public class JDBC
 	private String pw;
 	private String m_driverName;
 	private String m_url;
+	private Connection con;
 	private static JDBC mgr = null;
 
 	// Singleton
@@ -74,9 +75,21 @@ public class JDBC
 
 		Class drvClass = Class.forName(m_driverName);
 		// Establish Connection
-		Connection con = DriverManager.getConnection(m_url, username, pw);
+		con = DriverManager.getConnection(m_url, username, pw);
 		System.out.println("Connection Created");
 
 	}
+
+	public ResultSet sendQuery(String query) throws SQLException {
+		// Creating a statement
+		Statement stmt = con.createStatement();
+		// Result
+		ResultSet rs = stmt.executeQuery(query);
+
+		// Retrieve Data
+		return rs;	
+	}
+	
+	
 
 }
