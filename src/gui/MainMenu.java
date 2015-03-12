@@ -67,9 +67,8 @@ public class MainMenu extends JFrame {
 		JButton vehicle_reg_btn = new JButton("New Vehicle Registration");
 		vehicle_reg_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JDialog dialog = new JDialog();
+				JDialog dialog = new VehicleRegPanel();
 				dialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
-				dialog.getContentPane().add(new VehicleRegPanel());
 				dialog.setTitle("New Vehicle Registration Form");
 				dialog.pack();
 				dialog.setVisible(true);
