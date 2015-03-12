@@ -1,6 +1,9 @@
 package miniproject1test;
 
 import static org.junit.Assert.fail;
+
+import java.sql.SQLException;
+
 import jdbc.JDBC;
 
 import org.junit.Test;
@@ -29,30 +32,30 @@ public class JDBCTest {
  * and the number of violations it has been involved by entering the vehicle's serial number.
  */
 
-	
+	@Test(expected = Exception.class)
 	// Use Case: Database User Connects to the Database
-	@Test
-	public void testConnection() {
-		JDBC jdbcManager = new JDBC();
-		String m_driverName = "oracle.jdbc.driver.OracleDriver";
-		String m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
+	public void testConnection() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
-		jdbcManager.connect(m_driverName, m_url, username, password);
+		String driver = "123123";
+		String url = "123123";
+		JDBC jdbcManager = new JDBC(driver, url, username, password);
+		jdbcManager.connect();
 	}
 	
-	// Use Case: Database User queries the database
 	@Test
-	public void testQueryLicenseNum() {
-		JDBC jdbcMgr = new JDBC();
+	// Use Case: Database User queries the database
+	public void testSendQuery() {
 		String m_driverName = "oracle.jdbc.driver.OracleDriver";
 		String m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
 		String username = "edrick";
 		String password = "cwielkisbl7";
-		jdbcMgr.connect(m_driverName, m_url, username, password);
+		JDBC jdbcMgr = new JDBC(username, password);
 		
-		// Query 
-		//String query = "select * from People"
+		Search search = new Search();
+		
+		jdbcMgr.sendQuery("select * from people");
+		
 	}
 
 }
