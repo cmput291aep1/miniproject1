@@ -2,6 +2,7 @@ package p1;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import jdbc.JDBC;
 
@@ -52,15 +53,24 @@ public class Search
 		// Print headers first
 		StringBuilder sbHeader = new StringBuilder();
 		StringBuilder sbResult = new StringBuilder();
+		
+		ArrayList<String> retrievedData = new ArrayList<String>();
+		
 		for (int i = 0; i < headers.length; i++) {
 			sbHeader.append(headers[i] + "\t\t\t");
-			sbResult.append(rs.getString(headers[i]) + "\t\t\t");
+			for (int j = 0; j < rs.getFetchSize(); j++) {
+				rs.next();
+				retrievedData.add(i, rs.getString(headers[i]));
+			}
+		}
+		for (int i = 0; i < retrievedData.size(); i++) {
+			System.out.println(retrievedData.get(i));
 		}
 		System.out.println(sbHeader.toString());
 		// Print Results
-		while(rs.next()) {
-			System.out.println(sbResult.toString());
-		}
+//		while(rs.next()) {
+//			System.out.println(sbResult.toString());
+//		}
 		
 		// Close ResultStatement
 		rs.close();
