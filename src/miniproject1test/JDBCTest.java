@@ -88,6 +88,18 @@ public class JDBCTest {
 		assertEquals(flag, 0);	
 	}
 	
+	@Test
+	public void testSendUpdate() throws SQLException, ClassNotFoundException {
+		String m_driverName = "oracle.jdbc.driver.OracleDriver";
+		String m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
+		String username = "edrick";
+		String password = "cwielkisbl7";
+		JDBC jdbcMgr = new JDBC(username, password);
+		
+		// ResultSet
+		jdbcMgr.sendUpdate("insert into vehicle_type values(5, 'Motocycle')");
+	}
+	
 	
 
 }

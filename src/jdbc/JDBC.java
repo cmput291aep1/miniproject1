@@ -90,7 +90,13 @@ public class JDBC
 		// Retrieve Data
 		return rs;	
 	}
-	
-	
+
+	public void sendUpdate(String update) throws SQLException {
+		// Creating a statement
+		Statement stmt = con.createStatement();
+		
+		// Execute update
+		stmt.executeUpdate(update);
+	}
 
 }
