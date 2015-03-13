@@ -58,19 +58,15 @@ public class Search
 		
 		for (int i = 0; i < headers.length; i++) {
 			sbHeader.append(headers[i] + "\t\t\t");
-			for (int j = 0; j < rs.getFetchSize(); j++) {
-				rs.next();
-				retrievedData.add(i, rs.getString(headers[i]));
-			}
-		}
-		for (int i = 0; i < retrievedData.size(); i++) {
-			System.out.println(retrievedData.get(i));
 		}
 		System.out.println(sbHeader.toString());
 		// Print Results
-//		while(rs.next()) {
-//			System.out.println(sbResult.toString());
-//		}
+		while(rs.next()) {
+			for (int i = 0; i < headers.length; i++) {
+				sbResult.append(rs.getString(headers[i]) + "\t\t\t");
+			}
+			System.out.println(sbResult.toString());
+		}
 		
 		// Close ResultStatement
 		rs.close();
