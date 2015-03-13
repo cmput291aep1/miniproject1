@@ -51,18 +51,19 @@ public class Search
 		String[] headers = columnNames;		
 		// Print headers first
 		StringBuilder sbHeader = new StringBuilder();
+		StringBuilder sbResult = new StringBuilder();
 		for (int i = 0; i < headers.length; i++) {
-			sbHeader.append(headers[i] + "\t\t\t\t");
+			sbHeader.append(headers[i] + "\t\t\t");
+			sbResult.append(rs.getString(headers[i]) + "\t\t\t");
 		}
 		System.out.println(sbHeader.toString());
 		// Print Results
-		StringBuilder sbResult = new StringBuilder();
-		int j = 0;
 		while(rs.next()) {
-			//sbResult.append(rs.getString("Name") + "\t\t\t\t" + rs.getString("SIN") + "\t\t\t\t" + rs.getString("Addr") + "\t\t\t\t");
-			System.out.println(rs.getString("Name") + "\t\t\t\t" + rs.getString("SIN") + "\t\t\t\t" + rs.getString("Addr") + "\t\t\t\t");
-			//j++;
+			System.out.println(sbResult.toString());
 		}
+		
+		// Close ResultStatement
+		rs.close();
 		
 		
 	}
