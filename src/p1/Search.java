@@ -57,15 +57,16 @@ public class Search
 		ArrayList<String> retrievedData = new ArrayList<String>();
 		
 		for (int i = 0; i < headers.length; i++) {
-			sbHeader.append(headers[i] + "\t\t\t");
+			sbHeader.append(headers[i] + "\t");
 		}
 		System.out.println(sbHeader.toString());
 		// Print Results
 		while(rs.next()) {
 			for (int i = 0; i < headers.length; i++) {
-				sbResult.append(rs.getString(headers[i]) + "\t\t\t");
+				sbResult.append(rs.getString(headers[i]).trim() + "\t");
 			}
 			System.out.println(sbResult.toString());
+			sbResult.setLength(0);
 		}
 		
 		// Close ResultStatement
