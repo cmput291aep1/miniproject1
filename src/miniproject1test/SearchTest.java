@@ -10,6 +10,7 @@ import org.junit.Test;
 import p1.Search;
 
 public class SearchTest {
+	
 	@Test
 	// Use case query general information by name
 	public void testSearchGeneralInfoByName() throws SQLException, ClassNotFoundException {
@@ -66,6 +67,6 @@ public class SearchTest {
 		JDBC mgr = new JDBC(username,password);
 		Search search = new Search(mgr);
 		ResultSet rs = mgr.sendQuery("select * from people");
-		search.printResult(rs, "Name");
+		search.printResult(rs, "Name", "SIN", "Addr");
 	}
 }

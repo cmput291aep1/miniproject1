@@ -21,27 +21,27 @@ public class Search
 		this.mgr = mgr;
 	}
 	
-	public void queryGeneralInfoByName(String string) throws SQLException {
+	public void queryGeneralInfoByName(String query1) throws SQLException {
 		// TODO Auto-generated method stub
 		ResultSet rs = mgr.sendQuery(query1);
 	}
 
-	public void queryGeneralInfoByLicenceNo(String string) {
+	public void queryGeneralInfoByLicenceNo(String query2) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void queryViolationBySIN(String string) {
+	public void queryViolationBySIN(String query3) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void queryViolationByLicenceNo(String string) {
+	public void queryViolationByLicenceNo(String query4) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void queryVehicleHistBySerialNo(String string) {
+	public void queryVehicleHistBySerialNo(String query5) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -59,10 +59,11 @@ public class Search
 		StringBuilder sbResult = new StringBuilder();
 		int j = 0;
 		while(rs.next()) {
-			sbResult.append(rs.getString(headers[j]) + "\t\t\t\t" );
-			j++;
+			//sbResult.append(rs.getString("Name") + "\t\t\t\t" + rs.getString("SIN") + "\t\t\t\t" + rs.getString("Addr") + "\t\t\t\t");
+			System.out.println(rs.getString("Name") + "\t\t\t\t" + rs.getString("SIN") + "\t\t\t\t" + rs.getString("Addr") + "\t\t\t\t");
+			//j++;
 		}
-		System.out.println(sbResult.toString());
+		
 		
 	}
 
