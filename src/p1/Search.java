@@ -16,11 +16,14 @@ public class Search
 	private String query4;
 	private String query5;
 	
+	public Search(JDBC mgr) {
+		
+		this.mgr = mgr;
+	}
+	
 	public void queryGeneralInfoByName(String string) throws SQLException {
 		// TODO Auto-generated method stub
 		ResultSet rs = mgr.sendQuery(query1);
-		
-		
 	}
 
 	public void queryGeneralInfoByLicenceNo(String string) {

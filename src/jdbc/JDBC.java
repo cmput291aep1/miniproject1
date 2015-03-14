@@ -48,7 +48,7 @@ public class JDBC
 	private static JDBC mgr = null;
 
 	// Singleton
-	public static JDBC getInstance(String username, String pw) {
+	public static JDBC getInstance(String username, String pw) throws SQLException, ClassNotFoundException {
 
 		if (mgr == null) {
 			return new JDBC(username, pw);
@@ -64,11 +64,12 @@ public class JDBC
 		this.connect();
 	}
 
-	public JDBC(String username, String pw) {
+	public JDBC(String username, String pw) throws SQLException, ClassNotFoundException {
 		this.m_driverName = "oracle.jdbc.driver.OracleDriver";
 		this.m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
 		this.username = username;
 		this.pw = pw;
+		this.connect();
 	}
 
 	public void connect() throws SQLException, ClassNotFoundException {

@@ -38,7 +38,7 @@ public class JDBCTest {
  * and the number of violations it has been involved by entering the vehicle's serial number.
  */
 
-	@Test//(expected = Exception.class)
+	@Test(expected = Exception.class)
 	// Use Case: Database User Connects to the Database
 	public void testConnection() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
@@ -51,7 +51,7 @@ public class JDBCTest {
 	
 	@Test
 	// Use Case: Database User queries the database
-	public void testSendQuery() throws SQLException {
+	public void testSendQuery() throws SQLException, ClassNotFoundException {
 		String m_driverName = "oracle.jdbc.driver.OracleDriver";
 		String m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
 		String username = "edrick";
@@ -75,7 +75,7 @@ public class JDBCTest {
 		for (int i = 0; i < 8; i++) {
 			
 			if (rs.next()==true) {
-				if (rs.getString("Name")!=re.get(i)) {
+				if (!rs.getString("Name").equals(re.get(i))) {
 					flag = 1;
 					System.out.println("RS: " + rs.getString("Name") + " RE: " + re.get(i));
 				} else {
@@ -85,9 +85,7 @@ public class JDBCTest {
 			}
 		}
 		rs.close();
-		assertEquals(flag, 0);
-		
-		
+		assertEquals(flag, 0);	
 	}
 	
 	
