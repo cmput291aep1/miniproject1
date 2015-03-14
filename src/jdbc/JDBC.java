@@ -66,7 +66,9 @@ public class JDBC
 
 	public JDBC(String username, String pw) throws SQLException, ClassNotFoundException {
 		this.m_driverName = "oracle.jdbc.driver.OracleDriver";
-		this.m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
+		// Test URL
+		this.m_url = "jdbc:oracle:thin:@localhost:1525:CRS";
+		//this.m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
 		this.username = username;
 		this.pw = pw;
 		this.connect();

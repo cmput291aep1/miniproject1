@@ -29,10 +29,20 @@ public class JDBCTest {
 /*	List the name, licence_no, addr, birthday, driving class, driving_condition, and the expiring_data of a driver 
  *	by entering either a licence_no or a given name. It shall display all the entries if a duplicate name is given.
  *	"select p.name, d.licence_no, p.addr, p.birthday, d.class, dc.description, d.expiring_date
- *   from people p, drive_licence d, driving_condition dc
- *   where p.sin=d.sin and  
+    from people p, drive_licence d, driving_condition dc, restriction r
+    where p.sin=d.sin and d.licence_no=r.licence_no and dc.c_id=r.r_id and d.licence_no='LLL 111';"
+ *   
+ *	"select p.name, d.licence_no, p.addr, p.birthday, d.class, dc.description, d.expiring_date
+    from people p, drive_licence d, driving_condition dc, restriction r
+    where p.sin=d.sin and d.licence_no=r.licence_no and dc.c_id=r.r_id and p.name='Sophia';"
+ *   
  */
-//	List all violation records received by a person if  the drive licence_no or sin of a person  is entered.
+	
+/*	List all violation records received by a person if  the drive licence_no or sin of a person  is entered.
+ *  "select distinct ticket_no, violator_no, vehicle_id, office_no, vtype, vdate, place, descriptions from ticket, people p where violator_no=p.sin AND p.name='Sophia';"
+ *  "select distinct ticket_no, violator_no, vehicle_id, office_no, vtype, vdate, place, descriptions from ticket, people p where violator_no=p.sin AND violator_no='SIN2';"
+ */
+	
 	
 /*	Print out the vehicle_history, including the number of times that a vehicle has been changed hand, the average price, 
  * and the number of violations it has been involved by entering the vehicle's serial number.
@@ -88,7 +98,7 @@ public class JDBCTest {
 		assertEquals(flag, 0);	
 	}
 	
-	@Test
+	@Test(expected = Exception.class)
 	public void testSendUpdate() throws SQLException, ClassNotFoundException {
 		String m_driverName = "oracle.jdbc.driver.OracleDriver";
 		String m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
