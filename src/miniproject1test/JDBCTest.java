@@ -39,7 +39,7 @@ public class JDBCTest {
  */
 	
 /*	List all violation records received by a person if  the drive licence_no or sin of a person  is entered.
- *  "select distinct ticket_no, violator_no, vehicle_id, office_no, vtype, vdate, place, descriptions from ticket, people p where violator_no=p.sin AND p.name='Sophia';"
+ *  "select distinct ticket_no, violator_no, vehicle_id, office_no, vtype, vdate, place, descriptions from ticket, people p where violator_no=p.sin AND p.sin='Sophia';"
  *  "select distinct ticket_no, violator_no, vehicle_id, office_no, vtype, vdate, place, descriptions from ticket, people p where violator_no=p.sin AND violator_no='SIN2';"
  */
 	

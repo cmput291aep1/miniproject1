@@ -43,14 +43,24 @@ public class Search
 
 	}
 
-	public void queryViolationBySIN(String query3) {
-		// TODO Auto-generated method stub
-
+	public void queryViolationBySIN(String searchSIN) throws SQLException {
+		query3 = "select distinct ticket_no, violator_no, vehicle_id, office_no, vtype, vdate, place, descriptions " +
+				"from ticket, people p " +
+				"where violator_no=p.sin AND p.sin=" + "'" + searchSIN + "'";
+		ResultSet rs = mgr.sendQuery(query3);
+		ArrayList<String> collectedData = collectData(rs, "Ticket_No", "Violator_No", "Vehicle_ID", "Office_No", "vType", "vDate", "Place", "Descriptions");
+		printResult(collectedData, 8);
+		rs.close();
 	}
 
-	public void queryViolationByLicenceNo(String query4) {
-		// TODO Auto-generated method stub
-
+	public void queryViolationByLicenceNo(String searchLicenceNo) throws SQLException {
+		query4 = "select distinct ticket_no, violator_no, vehicle_id, office_no, vtype, vdate, place, descriptions " +
+				"from ticket, people p, drive_licence d " +
+				"where violator_no=p.sin AND p.sin=d.sin AND d.licence_no=" + "'" + searchLicenceNo + "'";
+		ResultSet rs = mgr.sendQuery(query4);
+		ArrayList<String> collectedData = collectData(rs, "Ticket_No", "Violator_No", "Vehicle_ID", "Office_No", "vType", "vDate", "Place", "Descriptions");
+		printResult(collectedData, 8);
+		rs.close();
 	}
 
 	public void queryVehicleHistBySerialNo(String query5) {

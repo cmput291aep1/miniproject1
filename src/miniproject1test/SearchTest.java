@@ -41,10 +41,7 @@ public class SearchTest {
 		String password = "cwielkisbl7";
 		JDBC mgr = new JDBC(username,password);
 		Search search = new Search(mgr);
-		
-		search.queryViolationBySIN("AB12CD");
-
-		
+		search.queryViolationBySIN("SIN1");
 	}
 	
 	@Test
@@ -55,7 +52,7 @@ public class SearchTest {
 		JDBC mgr = new JDBC(username,password);
 		Search search = new Search(mgr);
 		
-		search.queryViolationByLicenceNo("LLL 111");
+		search.queryViolationByLicenceNo("LLL 113");
 		
 	}
 	
