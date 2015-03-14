@@ -96,7 +96,7 @@ public class SearchTest {
 		String password = "cwielkisbl7";
 		JDBC mgr = new JDBC(username,password);
 		Search search = new Search(mgr);
-		ResultSet rs = mgr.sendQuery("select * from people where name='S");
+		ResultSet rs = mgr.sendQuery("select * from people where name='Sophia'");
 		ArrayList<String> dataCollected = new ArrayList<String>();
 		dataCollected = search.collectData(rs, "Name", "SIN", "Addr");
 		for(int i = 0; i < dataCollected.size(); i++) {
