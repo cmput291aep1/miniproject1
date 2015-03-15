@@ -2,6 +2,7 @@ package miniproject1test;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -52,7 +53,7 @@ public class VehicleTest {
 		
 	}
 	@Test
-	public void testSend() throws SQLException {
+	public void testSend() throws SQLException, FileNotFoundException {
 		db.sendModelinfo(v1);
 		ResultSet rs=db.sendQuery("SELECT * FROM vehicle");
 		rs.next();

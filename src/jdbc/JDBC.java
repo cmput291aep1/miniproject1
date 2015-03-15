@@ -1,7 +1,11 @@
 package jdbc;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -98,8 +102,20 @@ public class JDBC
 		// Execute update
 		stmt.executeUpdate(update);
 	}
-	public void sendModelinfo(Model m) throws SQLException{
-		sendUpdate(m.generateStatement());
+	public void sendModelinfo(Model m) throws SQLException, FileNotFoundException{
+		if(m.hasBlob()){
+			sendBlob(m);
+		}
+		else{
+			sendUpdate(m.generateStatement());
+		}
+	}
+	public void sendBlob(Model m) throws FileNotFoundException, SQLException{
+		 PreparedStatement stmt = con.prepareStatement(m.generateStatement());
+		 stmt.clearParameters();
+		 File photo = new File(m.getBlobFileName());
+	     stmt.setBinaryStream(1,new FileInputStream(photo),(int)photo.length());
+	     stmt.executeUpdate();
 	}
 	public void close() throws SQLException{
 		if(con!=null){
