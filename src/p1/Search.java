@@ -27,8 +27,7 @@ public class Search
 				"from people p, drive_licence d, driving_condition dc, restriction r " +
 				"where p.sin=d.sin and d.licence_no=r.licence_no and dc.c_id=r.r_id and p.name="+ "'" + searchName + "'";
 		ResultSet rs = mgr.sendQuery(query1);
-		ArrayList<String> collectedData = collectData(rs, "Name", "Licence_No", "Addr", "Birthday", "Class", "Description", "Expiring_Date");
-		printResult(collectedData, 7);
+		printGeneralInfo(rs);
 		rs.close();
 	}
 
@@ -37,8 +36,7 @@ public class Search
 				"from people p, drive_licence d, driving_condition dc, restriction r " +
 				"where p.sin=d.sin and d.licence_no=r.licence_no and dc.c_id=r.r_id and d.licence_no=" + "'" + searchLicenceNo + "'";
 		ResultSet rs = mgr.sendQuery(query2);
-		ArrayList<String> collectedData = collectData(rs, "Name", "Licence_No", "Addr", "Birthday", "Class", "Description", "Expiring_Date");
-		printResult(collectedData, 7);
+		printGeneralInfo(rs);
 		rs.close();
 
 	}
@@ -48,8 +46,7 @@ public class Search
 				"from ticket, people p " +
 				"where violator_no=p.sin AND p.sin=" + "'" + searchSIN + "'";
 		ResultSet rs = mgr.sendQuery(query3);
-		ArrayList<String> collectedData = collectData(rs, "Ticket_No", "Violator_No", "Vehicle_ID", "Office_No", "vType", "vDate", "Place", "Descriptions");
-		printResult(collectedData, 8);
+		printViolations(rs);
 		rs.close();
 	}
 
@@ -58,9 +55,24 @@ public class Search
 				"from ticket, people p, drive_licence d " +
 				"where violator_no=p.sin AND p.sin=d.sin AND d.licence_no=" + "'" + searchLicenceNo + "'";
 		ResultSet rs = mgr.sendQuery(query4);
-		ArrayList<String> collectedData = collectData(rs, "Ticket_No", "Violator_No", "Vehicle_ID", "Office_No", "vType", "vDate", "Place", "Descriptions");
-		printResult(collectedData, 8);
+		printViolations(rs);
 		rs.close();
+	}
+	
+	private void printGeneralInfo(ResultSet rs) throws SQLException {
+		rs.beforeFirst();
+		System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n","Name", "Licence_No", "Addr", "Birthday", "Class", "Expiring_Date", "Description");
+		while(rs.next()){
+			System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n", rs.getString("Name"),rs.getString("Licence_No"),rs.getString("Addr"),rs.getString("Birthday"),rs.getString("Class"),rs.getString("Expiring_Date"),rs.getString("Description"));
+		}
+	}
+	
+	private void printViolations(ResultSet rs) throws SQLException {
+		rs.beforeFirst();
+		System.out.printf("%-15s%-15s%-15s%-15s%-15s%-22s%-20s%-1024s\n","Ticket_No","Violator_No","Vehicle_ID","Office_No","vType","vDate","Place","Descriptions");
+		while(rs.next()){
+			System.out.printf("%-15s%-12s%-3s%-10s%-15s%-22s%-20s%-1024s\n", rs.getString("Ticket_No"),rs.getString("Violator_No"),rs.getString("Vehicle_ID"),rs.getString("Office_No"),rs.getString("vType"),rs.getString("vDate"),rs.getString("Place"),rs.getString("Descriptions"));
+		}
 	}
 
 	public void queryVehicleHistBySerialNo(String query5) {
@@ -68,77 +80,50 @@ public class Search
 
 	}
 
-	public ArrayList<String> collectData(ResultSet rs, String... columnNames) throws SQLException {
-		// TODO Auto-generated method stub
-		ArrayList<String> dataArray = new ArrayList<String>();
-		// Retrieve Column names
-		headers = columnNames;
-		// Insert header into dataArray
-		for (int i = 0; i < headers.length; i++) {
-			dataArray.add(headers[i]);
-		}
-
-		while(rs.next()) {
-			for (int i = 0; i < headers.length; i++) {
-				dataArray.add(rs.getString(headers[i]).trim());
-			}
-		}
-//		System.out.println("DATA ARRAY SIZE = " + dataArray.size());
-//		for (int i = 0; i < dataArray.size(); i++) {
-//			System.out.println(dataArray.get(i));
-//		}
-		return dataArray;
-	}	
-	
-	//	public void printResult(ResultSet rs, String... columnNames) throws SQLException {
-	//		// TODO Auto-generated method stub
-	//		String[] headers = columnNames;		
-	//		// Print headers first
-	//		StringBuilder sbHeader = new StringBuilder();
-	//		StringBuilder sbResult = new StringBuilder();
-	//		
-	//		ArrayList<String> retrievedData = new ArrayList<String>();
-	//		
-	//		for (int i = 0; i < headers.length; i++) {
-	//			sbHeader.append(headers[i] + "\t");
-	//		}
-	//		System.out.println(sbHeader.toString());
-	//		// Print Results
-	//		while(rs.next()) {
-	//			for (int i = 0; i < headers.length; i++) {
-	//				sbResult.append(rs.getString(headers[i]).trim() + "\t");
-	//			}
-	//			System.out.println(sbResult.toString());
-	//			sbResult.setLength(0);
-	//		}
-	//		
-	//		// Close ResultStatement
-	//		rs.close();
-	//		
-	//		
-	//	}
-
-	public void printResult(ArrayList<String> dataCollected, int headerLength) throws SQLException {
-		// TODO Auto-generated method stub
-
-		// Print headers first
-		StringBuilder sbData = new StringBuilder();
-		// Print Results
-
-		int columnCounter = 0;
-		for (int i = 0; i < dataCollected.size(); i++) {
-			sbData.append(dataCollected.get(i) + "\t");
-			columnCounter++;
-			if (columnCounter%headerLength == 0) {
-				columnCounter = 0;
-				System.out.println(sbData.toString());
-				sbData.setLength(0);
-			}
-		}
-	}
-
 	public int getHeadersSize() {
 		return headers.length;
 	}
 
+	
+//	public ArrayList<String> collectData(ResultSet rs, String... columnNames) throws SQLException {
+//	// TODO Auto-generated method stub
+//	ArrayList<String> dataArray = new ArrayList<String>();
+//	// Retrieve Column names
+//	headers = columnNames;
+//	// Insert header into dataArray
+//	for (int i = 0; i < headers.length; i++) {
+//		dataArray.add(headers[i]);
+//	}
+//
+//	while(rs.next()) {
+//		for (int i = 0; i < headers.length; i++) {
+//			dataArray.add(rs.getString(headers[i]).trim());
+//		}
+//	}
+////	System.out.println("DATA ARRAY SIZE = " + dataArray.size());
+////	for (int i = 0; i < dataArray.size(); i++) {
+////		System.out.println(dataArray.get(i));
+////	}
+//	return dataArray;
+//}	
+//
+//
+//public void printResult(ArrayList<String> dataCollected, int headerLength) throws SQLException {
+//	// TODO Auto-generated method stub
+//
+//	// Print headers first
+//	StringBuilder sbData = new StringBuilder();
+//	// Print Results
+//
+//	int columnCounter = 0;
+//	for (int i = 0; i < dataCollected.size(); i++) {
+//		sbData.append(dataCollected.get(i) + "\t");
+//		columnCounter++;
+//		if (columnCounter%headerLength == 0) {
+//			columnCounter = 0;
+//			System.out.println(sbData.toString());
+//			sbData.setLength(0);
+//		}
+//	}
+//}
 }
