@@ -77,30 +77,5 @@ public class SearchTest {
 //		ResultSet rs = mgr.sendQuery("select * from people");
 //		search.printResult(rs, "Name", "SIN", "Addr");
 //	}
-	
-	//@Test
-	public void testSearchPrintResult() throws SQLException, ClassNotFoundException {
-		String username = "edrick";
-		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
-		Search search = new Search(mgr);
-		ResultSet rs = mgr.sendQuery("select * from people");
-		ArrayList<String> dataCollected = new ArrayList<String>();
-		dataCollected = search.collectData(rs, "Name", "SIN", "Addr");
-		search.printResult(dataCollected,3);
-	}
-	
-	//@Test
-	public void testCollectData() throws SQLException, ClassNotFoundException {
-		String username = "edrick";
-		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
-		Search search = new Search(mgr);
-		ResultSet rs = mgr.sendQuery("select * from people where name='Sophia'");
-		ArrayList<String> dataCollected = new ArrayList<String>();
-		dataCollected = search.collectData(rs, "Name", "SIN", "Addr");
-		for(int i = 0; i < dataCollected.size(); i++) {
-			System.out.println(dataCollected.get(i));
-		}
-	}
+
 }
