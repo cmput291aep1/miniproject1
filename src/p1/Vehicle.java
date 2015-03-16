@@ -17,12 +17,8 @@ public class Vehicle extends Model {
 		this.color=color;
 		this.type_id=type_id;
 	}
-	private String generateValues(String serial_no, String maker,
-			String model, int year, String color, int type_id) {
-		return "VALUES ('"+serial_no+"','"+maker+"','"+model+"',"+Year+",'"+color+"','"+type_id+")";
-	}
 	@Override
 	public String generateStatement() {
-		return super.generateInsert("vehicle","serial_no","maker","model","Year","color","type_id")+" "+generateValues(serial_no,maker,model,Year,color,type_id);
+		return super.generateInsert("vehicle","serial_no","maker","model","Year","color","type_id")+" "+super.encapsulate("'"+serial_no+"','"+maker+"','"+model+"',"+Year+",'"+color+"','"+type_id);
 	}
 }

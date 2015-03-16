@@ -6,10 +6,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import p1.Model;
 import p1.Vehicle;
 
 public class VehicleTest {
-	private Vehicle v1;
+	private Model v1;
 	public VehicleTest() {
 	}
 

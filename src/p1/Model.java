@@ -12,4 +12,8 @@ public abstract class Model {
 		return output+")";
 	}
 
+	protected String encapsulate(String attr) {
+		return "VALUES ("+attr+")";
+	}
+
 }
