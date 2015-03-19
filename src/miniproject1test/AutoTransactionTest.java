@@ -64,8 +64,8 @@ public class AutoTransactionTest {
 	public void testGenerateStatement() {
 		String statement=at.generateStatement();
 		System.out.println(statement);
-		System.out.println("INSERT INTO auto_sale ("+"TRANSACTION_ID,".toLowerCase()+"SELLER_ID,".toLowerCase()+"BUYER_ID,".toLowerCase()+"VEHICLE_ID,".toLowerCase()+"S_DATE,".toLowerCase()+"PRICE".toLowerCase()+") VALUES (5678,'534 411 780','630 708 949','12345',"+date.toString()+",2000)");
-		assertTrue(statement.equals("INSERT INTO auto_sale ("+"TRANSACTION_ID,".toLowerCase()+"SELLER_ID,".toLowerCase()+"BUYER_ID,".toLowerCase()+"VEHICLE_ID,".toLowerCase()+"S_DATE,".toLowerCase()+"PRICE".toLowerCase()+") VALUES (5678,'534 411 780','630 708 949','12345',"+date.toString()+",2000)"));
+		System.out.println("INSERT INTO auto_sale ("+"TRANSACTION_ID,".toLowerCase()+"SELLER_ID,".toLowerCase()+"BUYER_ID,".toLowerCase()+"VEHICLE_ID,".toLowerCase()+"S_DATE,".toLowerCase()+"PRICE".toLowerCase()+") VALUES (5678,'534 411 780','630 708 949','12345','"+date.toString()+"',2000)");
+		assertTrue(statement.equals("INSERT INTO auto_sale ("+"TRANSACTION_ID,".toLowerCase()+"SELLER_ID,".toLowerCase()+"BUYER_ID,".toLowerCase()+"VEHICLE_ID,".toLowerCase()+"S_DATE,".toLowerCase()+"PRICE".toLowerCase()+") VALUES (5678,'534 411 780','630 708 949','12345',TO_DATE('"+date.toString()+"','YYYY-MM-DD'),2000)"));
 		
 	}
 	@Test
@@ -89,7 +89,8 @@ public class AutoTransactionTest {
 		populateVehicle();
 		db.sendUpdate("CREATE TABLE  people (sin CHAR(15),name VARCHAR(40),height number(5,2),weight number(5,2),eyecolor VARCHAR (10),haircolor VARCHAR(10),addr VARCHAR2(50),gender CHAR,birthday DATE,PRIMARY KEY (sin),CHECK (gender IN ('m', 'f')))");
 		populatePeople();
-	}
+		db.sendUpdate("CREATE TABLE auto_sale (transaction_id  int,seller_id CHAR(15),buyer_id CHAR(15),vehicle_id CHAR(15), s_date date,price numeric(9,2),PRIMARY KEY (transaction_id),FOREIGN KEY (seller_id) REFERENCES people,FOREIGN KEY (buyer_id) REFERENCES people,FOREIGN KEY (vehicle_id) REFERENCES vehicle)");
+		}
 	private void populatePeople() throws SQLException {
 		db.sendUpdate("INSERT INTO people(SIN,NAME,HEIGHT,WEIGHT,EYECOLOR,HAIRCOLOR,ADDR,GENDER,BIRTHDAY) VALUES ('534 411 780','James',1.84,94.6,'blue','black','3220 Victoria Park Ave, Toronto, ON M2J 3T7','m','25-AUG-85')");
 		db.sendUpdate("INSERT INTO people(SIN,NAME,HEIGHT,WEIGHT,EYECOLOR,HAIRCOLOR,ADDR,GENDER,BIRTHDAY) VALUES ('630 708 949','Alex',1.75,105,'brown','auburn','4351 Merivale Road,Stittsville,ON K2S 1B9','f','08-MAR-85')");

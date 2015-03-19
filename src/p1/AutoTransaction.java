@@ -73,6 +73,6 @@ public class AutoTransaction extends Model {
 
 	@Override
 	public String generateStatement() {
-		return generateInsert("auto_sale","transaction_id","seller_id","buyer_id","vehicle_id","s_date","price")+" "+encapsulate(transaction_id+",'"+seller_id+"','"+buyer_id+"','"+vehicle_id+"',"+s_date+","+price);
+		return generateInsert("auto_sale","transaction_id","seller_id","buyer_id","vehicle_id","s_date","price")+" "+encapsulate(transaction_id+",'"+seller_id+"','"+buyer_id+"','"+vehicle_id+"',TO_DATE('"+s_date+"','YYYY-MM-DD'),"+price);
 	}
 }
