@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import p1.Model;
+
 public class JDBC
 {
 
@@ -99,6 +101,14 @@ public class JDBC
 		
 		// Execute update
 		stmt.executeUpdate(update);
+	}
+	public void sendModelinfo(Model m) throws SQLException{
+		sendUpdate(m.generateStatement());
+	}
+	public void close() throws SQLException{
+		if(con!=null){
+			con.close();
+		}
 	}
 
 }

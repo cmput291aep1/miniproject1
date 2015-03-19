@@ -3,7 +3,7 @@ package p1;
 import java.sql.Date;
 
 
-public class Ticket {
+public class Ticket extends Model {
 
 	//ticket( ticket_no, violator_no,vehicle_no,office_no,vtype,vdate,place,descriptions )\
 	/*

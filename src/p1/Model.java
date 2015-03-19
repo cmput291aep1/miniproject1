@@ -8,7 +8,7 @@ public abstract class Model {
 		for(String str:fields){
 			output+=","+str;
 		}
-		output.replaceFirst(",","(");
+		output=output.replaceFirst(",","(");
 		return output+")";
 	}
 
