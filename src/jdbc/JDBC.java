@@ -60,19 +60,15 @@ public class JDBC
 	}
 
 	public JDBC(String m_driverName, String m_url, String username, String pw) throws SQLException, ClassNotFoundException {
-		this(username, pw);
 		this.m_driverName = m_driverName;
 		this.m_url = m_url;
+		this.username=username;
+		this.pw=pw;
 		this.connect();
 	}
 
 	public JDBC(String username, String pw) throws SQLException, ClassNotFoundException {
-		this.m_driverName = "oracle.jdbc.driver.OracleDriver";
-		// Test URL
-		this.m_url = "jdbc:oracle:thin:@localhost:1525:CRS";
-		//this.m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
-		this.username = username;
-		this.pw = pw;
+		this("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS",username,pw);
 		this.connect();
 	}
 
@@ -87,7 +83,7 @@ public class JDBC
 
 	public ResultSet sendQuery(String query) throws SQLException {
 		// Creating a statement
-		Statement stmt = con.createStatement();
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		// Result
 		ResultSet rs = stmt.executeQuery(query);
 
@@ -107,6 +103,7 @@ public class JDBC
 	}
 	public void close() throws SQLException{
 		if(con!=null){
+			con.commit();
 			con.close();
 		}
 	}

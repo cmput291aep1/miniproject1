@@ -15,9 +15,9 @@ public class AutoTransaction extends Model {
 	}
 	public AutoTransaction(Integer transaction_id,String seller_id, String buyer_id, String vehicle_id, Date s_date, Integer price){
 		this.transaction_id=transaction_id;
-		this.seller_id=seller_id;
-		this.buyer_id=buyer_id;
-		this.vehicle_id=vehicle_id;
+		this.seller_id=seller_id.toLowerCase();
+		this.buyer_id=buyer_id.toLowerCase();
+		this.vehicle_id=vehicle_id.toLowerCase();
 		this.s_date=s_date;
 		this.price=price;
 	}
@@ -35,7 +35,7 @@ public class AutoTransaction extends Model {
 	}
 
 	public void setSeller_id(String seller_id) {
-		this.seller_id = seller_id;
+		this.seller_id = seller_id.toLowerCase();
 	}
 
 	public String getBuyer_id() {
@@ -43,7 +43,7 @@ public class AutoTransaction extends Model {
 	}
 
 	public void setBuyer_id(String buyer_id) {
-		this.buyer_id = buyer_id;
+		this.buyer_id = buyer_id.toLowerCase();
 	}
 
 	public String getVehicle_id() {
@@ -51,7 +51,7 @@ public class AutoTransaction extends Model {
 	}
 
 	public void setVehicle_id(String vehicle_id) {
-		this.vehicle_id = vehicle_id;
+		this.vehicle_id = vehicle_id.toLowerCase();
 	}
 
 	public Date getS_date() {
@@ -73,6 +73,6 @@ public class AutoTransaction extends Model {
 
 	@Override
 	public String generateStatement() {
-		return generateInsert("auto_sale","seller_id","buyer_id","vehicle_id","s_date","price")+encapsulate("'"+seller_id+"','"+buyer_id+"','"+vehicle_id+"',"+s_date+","+price);
+		return generateInsert("auto_sale","transaction_id","seller_id","buyer_id","vehicle_id","s_date","price")+" "+encapsulate(transaction_id+",'"+seller_id+"','"+buyer_id+"','"+vehicle_id+"',"+s_date+","+price);
 	}
 }

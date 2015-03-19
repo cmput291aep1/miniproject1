@@ -29,8 +29,19 @@ public class VehicleTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
-		db.sendUpdate("DROP TABLE vehicle");
+	public void tearDown() throws SQLException{
+		try {
+			db.sendUpdate("DROP TABLE vehicle");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			db.sendUpdate("DROP TABLE vehicle_type");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		db.close();
 	}
 
@@ -55,8 +66,19 @@ public class VehicleTest {
 	}	
 	
 	private void setUpTable() throws SQLException, ClassNotFoundException{
-		db.connect();
+		db.sendUpdate("CREATE TABLE vehicle_type (type_id integer,type CHAR(10),PRIMARY KEY (type_id))");
+		populateVehicleType();
 		db.sendUpdate("CREATE TABLE vehicle (serial_no CHAR(15),maker VARCHAR(20),model VARCHAR(20),year number(4,0),color VARCHAR(10),type_id integer,PRIMARY KEY (serial_no),FOREIGN KEY (type_id) REFERENCES vehicle_type)");
+	}
+
+	private void populateVehicleType() throws SQLException {
+		ResultSet rs=db.sendQuery("SELECT type_id,type FROM vehicle_type");
+		
+		rs.moveToInsertRow();
+		rs.updateInt("type_id",2);
+		rs.updateString("type","Sedan");
+		rs.insertRow();
+		
 	}
 
 }
