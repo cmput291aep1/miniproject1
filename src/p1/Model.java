@@ -15,5 +15,13 @@ public abstract class Model {
 	protected String encapsulate(String attr) {
 		return "VALUES ("+attr+")";
 	}
+	public boolean hasBlob(){
+		return false;
+		
+	}
+
+	public String getBlobFileName() {
+		return null;
+	}
 
 }
