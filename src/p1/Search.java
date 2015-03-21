@@ -16,6 +16,7 @@ public class Search
 	private String query3;
 	private String query4;
 	private String query5;
+	private String query6;
 	private String[] headers;
 
 	public Search(JDBC mgr) {
@@ -59,6 +60,23 @@ public class Search
 		rs.close();
 	}
 	
+	public void queryVehicleHistBySerialNo(String searchVehicleID) throws SQLException {
+		query5 = "select vehicle_id, COUNT(*) as TotalChangedHand, AVG(Price) as AveragePrice " +
+				"from auto_sale " +
+				"group by vehicle_id " +
+				"having vehicle_id=" + "'" + searchVehicleID + "'";
+		query6 = "select vehicle_id, COUNT(*) as TotalViolations " +
+				"from ticket " +
+				"group by vehicle_id " +
+				"having vehicle_id=" + "'" + searchVehicleID + "'";
+		ResultSet rs1 = mgr.sendQuery(query5);
+		ResultSet rs2 = mgr.sendQuery(query6);
+		printVehicleHistory(rs1,rs2);
+		rs1.close();
+		rs2.close();
+	}
+	
+	
 	private void printGeneralInfo(ResultSet rs) throws SQLException {
 		rs.beforeFirst();
 		System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n","Name", "Licence_No", "Addr", "Birthday", "Class", "Expiring_Date", "Description");
@@ -74,11 +92,15 @@ public class Search
 			System.out.printf("%-15s%-12s%-3s%-10s%-15s%-22s%-20s%-1024s\n", rs.getString("Ticket_No"),rs.getString("Violator_No"),rs.getString("Vehicle_ID"),rs.getString("Office_No"),rs.getString("vType"),rs.getString("vDate"),rs.getString("Place"),rs.getString("Descriptions"));
 		}
 	}
-
-	public void queryVehicleHistBySerialNo(String query5) {
-		// TODO Auto-generated method stub
-
+	
+	private void printVehicleHistory(ResultSet rs1, ResultSet rs2) throws SQLException {
+		System.out.printf("%-21s%-17s%-10s\n", "# of Changed Hand", "Average Price", "# of Violations");
+		while(rs1.next()&rs2.next()) {
+			System.out.printf("%-21s%-17s%-10s", rs1.getInt("TotalChangedHand"), rs1.getFloat("AveragePrice"), rs2.getInt("TotalViolations"));
+		}
 	}
+
+
 
 	public int getHeadersSize() {
 		return headers.length;
