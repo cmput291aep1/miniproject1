@@ -32,7 +32,7 @@ public class DriversLicense extends Model {
 		return licence_no;
 	}
 	public void setLicence_no(String licence_no) {
-		this.licence_no = licence_no;
+		this.licence_no = licence_no.toLowerCase();
 	}
 	public String getSin() {
 		return sin;
