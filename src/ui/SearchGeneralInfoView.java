@@ -15,6 +15,8 @@ public class SearchGeneralInfoView implements View {
 	@Override
 	public void run() {
 		try {
+			
+			//search = new Search(db);
 			startUI();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -27,6 +29,7 @@ public class SearchGeneralInfoView implements View {
 		switch(selection){
 			case 1:
 				// TODO
+				//searchByLicenceNo();
 				break;
 			case 2:
 				// TODO
