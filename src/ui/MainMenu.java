@@ -28,7 +28,7 @@ public class MainMenu {
 		
 	}
 	private void loginToDatabase() throws ClassNotFoundException, SQLException {
-		String username=System.console().readLine("Enter a username:");
+		String username=System.console().readLine("Enter a username: ");
 		String pw=String.valueOf(System.console().readPassword("\nEnter your password:"));
 		System.out.println();
 		db=JDBC.getInstance(username, pw);
