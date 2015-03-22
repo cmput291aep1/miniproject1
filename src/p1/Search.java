@@ -81,7 +81,7 @@ public class Search
 		rs.beforeFirst();
 		System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n","Name", "Licence_No", "Addr", "Birthday", "Class", "Expiring_Date", "Description");
 		while(rs.next()){
-			System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n", rs.getString("Name"),rs.getString("Licence_No"),rs.getString("Addr"),rs.getString("Birthday"),rs.getString("Class"),rs.getString("Expiring_Date"),rs.getString("Description"));
+			System.console().printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n", rs.getString("Name"),rs.getString("Licence_No"),rs.getString("Addr"),rs.getString("Birthday"),rs.getString("Class"),rs.getString("Expiring_Date"),rs.getString("Description"));
 		}
 	}
 	
