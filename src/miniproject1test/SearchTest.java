@@ -12,44 +12,44 @@ import p1.Search;
 
 public class SearchTest {
 	
-	@Test
+	//@Test
 	// Use case query general information by name
 	public void testSearchGeneralInfoByName() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC(username, password);
+		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
 		Search search = new Search(mgr);
 		search.queryGeneralInfoByName("Sophia");
 		
 	}
 	
-	@Test
+	//@Test
 	// Use case query general information by licence number
 	public void testSearchGeneralInfoByLicenceNo() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC(username,password);
+		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
 		Search search = new Search(mgr);
 		search.queryGeneralInfoByLicenceNo("LLL 111");
 		
 	}
 	
-	@Test
+	//@Test
 	// Use case query violation by SIN
 	public void testSearchViolationBySIN() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC(username,password);
+		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
 		Search search = new Search(mgr);
 		search.queryViolationBySIN("SIN1");
 	}
 	
-	@Test
+	//@Test
 	// Use case query violation by Licence number
 	public void testSearchViolationByLicenceNo() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC(username,password);
+		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
 		Search search = new Search(mgr);
 		
 		search.queryViolationByLicenceNo("LLL 113");
@@ -61,46 +61,13 @@ public class SearchTest {
 	public void testSearchVehicleHistBySerialNo() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC(username,password);
+		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
 		Search search = new Search(mgr);
 
-		search.queryVehicleHistBySerialNo("123ASD456");
+		search.queryVehicleHistBySerialNo("S01");
 		
 	}
 	
-//	@Test
-//	public void testSearchPrintResult() throws SQLException, ClassNotFoundException {
-//		String username = "edrick";
-//		String password = "cwielkisbl7";
-//		JDBC mgr = new JDBC(username,password);
-//		Search search = new Search(mgr);
-//		ResultSet rs = mgr.sendQuery("select * from people");
-//		search.printResult(rs, "Name", "SIN", "Addr");
-//	}
-	
-	@Test
-	public void testSearchPrintResult() throws SQLException, ClassNotFoundException {
-		String username = "edrick";
-		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC(username,password);
-		Search search = new Search(mgr);
-		ResultSet rs = mgr.sendQuery("select * from people");
-		ArrayList<String> dataCollected = new ArrayList<String>();
-		dataCollected = search.collectData(rs, "Name", "SIN", "Addr");
-		search.printResult(dataCollected,3);
-	}
-	
-	@Test
-	public void testCollectData() throws SQLException, ClassNotFoundException {
-		String username = "edrick";
-		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC(username,password);
-		Search search = new Search(mgr);
-		ResultSet rs = mgr.sendQuery("select * from people where name='Sophia'");
-		ArrayList<String> dataCollected = new ArrayList<String>();
-		dataCollected = search.collectData(rs, "Name", "SIN", "Addr");
-		for(int i = 0; i < dataCollected.size(); i++) {
-			System.out.println(dataCollected.get(i));
-		}
-	}
+
+
 }
