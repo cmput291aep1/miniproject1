@@ -1,7 +1,8 @@
 package miniproject1test;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import jdbc.JDBC;
@@ -88,7 +89,7 @@ public class SearchTest {
 		String password = "cwielkisbl7";
 		Ticket ticket = new Ticket();
 		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
-		int ticket_num = 123456;
+		int ticket_num = 1113;
 		String violator_num = "SIN2";
 		String vehicle_num= "S02";
 		String office_num= "SIN3";
@@ -96,7 +97,7 @@ public class SearchTest {
 		Date date = null;
 		String place = "12345";
 		String desc= "12345";
-		String update = "INSERT INTO ticket values ("+ticket_num+","+"'"+violator_num+"'"+ "," +"'"+ vehicle_num +"'"+ "," +"'"+ office_num+"'"+ "," +"'"+vtype+"'"+ "," +null + "," +"'"+place+"'"+ "," +"'"+desc+"'"+ ")";
+		String update = "INSERT INTO ticket values ("+ticket_num+","+"'"+violator_num+"'"+ "," +"'"+ vehicle_num +"'"+ "," +"'"+ office_num+"'"+ "," +"'"+vtype+"'"+ "," +date + "," +"'"+place+"'"+ "," +"'"+desc+"'"+ ")";
 		mgr.sendUpdate(update);
 	}
 	
@@ -104,28 +105,28 @@ public class SearchTest {
 	public void testVRecSend() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
-		Ticket ticket = new Ticket();
 		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
-		VRecController vc = new VRecController(mgr, ticket);
+		
 		Ticket t = new Ticket();
-		int ticket_num = 1234567;
-		String violator_num = "SIN1";
-		String vehicle_num= "S01";
-		String office_num= "SIN2";
+		int ticket_num = 11112;
+		String violator_num = "S01";
+		String vehicle_num= "S02";
+		String office_num= "S01";
 		String vtype= "SPEEDING";
-		Date date = null;
 		String place = "12345";
 		String desc= "12345";
-		t.setTicket_no(ticket_num);
+		VRecController vc = new VRecController(mgr, t);
 		t.setViolator_no(violator_num);
 		t.setVehicle_id(vehicle_num);
 		t.setOffice_no(office_num);
 		t.setVType(vtype);
-		t.setVDate(date);
 		t.setPlace(place);
 		t.setDescription(desc);
+		t.setVDate(vc.getDate());
 		vc.sendViolationUpdate();
 	}
+	
+
 
 
 }

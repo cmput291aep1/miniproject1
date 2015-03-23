@@ -1,6 +1,6 @@
 package p1;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 public class Ticket extends Model {
@@ -21,14 +21,14 @@ public class Ticket extends Model {
 	private String vehicle_id;
 	private String office_no;
 	private String vtype;
-	private Date vdate;
+	private String vdate;
 	private String place;
 	private String description;
 	
 	public Ticket () {
 		
 	}
-	public Ticket(int ticket_no,String violator_no,String vehicle_id,String office_no,String vtype,Date vdate,String place,String description) {
+	public Ticket(int ticket_no,String violator_no,String vehicle_id,String office_no,String vtype,String vdate,String place,String description) {
 		this.ticket_no = ticket_no;
 		this.violator_no = violator_no.toLowerCase();
 		this.vehicle_id = vehicle_id.toLowerCase();
@@ -74,10 +74,10 @@ public class Ticket extends Model {
 		this.vtype = vtype.toLowerCase();
 	}
 	
-	public Date getVDate() {
+	public String getVDate() {
 		return this.vdate;
 	}
-	public void setVDate(Date vdate) {
+	public void setVDate(String vdate) {
 		this.vdate = vdate;
 	}
 	

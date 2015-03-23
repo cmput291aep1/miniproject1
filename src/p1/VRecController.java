@@ -1,7 +1,9 @@
 package p1;
 
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 import jdbc.JDBC;
 
@@ -16,8 +18,7 @@ public class VRecController {
 	}
 	
 	public void sendViolationUpdate() throws SQLException {
-		// Date Entry to_date('05-Mar-2010','DD-MON-YYYY')
-		String query = "INSERT INTO ticket values ("+getTicketCount()+","+"'"+ticket.getViolator_no()+"'"+ "," +"'"+ ticket.getVehicle_id() +"'"+ "," +"'"+ ticket.getOffice_no()+"'"+ "," +"'"+ticket.getVType()+"'"+ "," +ticket.getVDate() + "," +"'"+ticket.getPlace()+"'"+ "," +"'"+ticket.getDescription()+"'"+ ")";
+		String query = "INSERT INTO ticket values ("+getTicketCount()+","+"'"+ticket.getViolator_no()+"'"+ "," +"'"+ ticket.getVehicle_id() +"'"+ "," +"'"+ ticket.getOffice_no()+"'"+ "," +"'"+ticket.getVType()+"'"+","+"to_date(" + "'" +ticket.getVDate()+"'"+",'DD-MON-YYYY')"+"," +"'"+ticket.getPlace()+"'"+ "," +"'"+ticket.getDescription()+"'"+ ")";
 		db.sendUpdate(query);
 	}
 	
@@ -27,6 +28,25 @@ public class VRecController {
 		while(rs.next()) {
 			count = Integer.parseInt(rs.getString("count")) + 1;
 		}
+		System.out.println("New Ticket will be Ticket Number: " + count);
 		return count;
+	}
+	
+	
+	public void test() {
+		System.out.println(ticket.getVType());
+		System.out.println(ticket.getTicket_no());
+		System.out.println(ticket.getViolator_no());
+		System.out.println(ticket.getOffice_no());
+		System.out.println(ticket.getVehicle_id());
+		System.out.println(ticket.getVDate());
+	}
+	
+	public String getDate() {
+		Date cDate = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+		String output = sdf.format(cDate);
+		System.out.println("DATE: " + output);
+		return output;
 	}
 }

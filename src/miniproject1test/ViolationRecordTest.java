@@ -29,7 +29,7 @@ public class ViolationRecordTest {
 	@Before
 	public void setUp() throws Exception {
 		date=Date.valueOf("2015-10-06");
-		vr=new Ticket(6, "534 411 780", "12345", "630 708 949", "moving", date,"", "");
+		vr=new Ticket(6, "534 411 780", "12345", "630 708 949", "moving", null,"", "");
 		db=new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS", "bmaroney","mypasswordisc00l");
 		setUpTable();
 	}

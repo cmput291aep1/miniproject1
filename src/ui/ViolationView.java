@@ -1,8 +1,8 @@
 package ui;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 import jdbc.JDBC;
 import p1.Search;
@@ -16,14 +16,14 @@ public class ViolationView implements View {
 	private JDBC db;
 	private Ticket ticket;
 	private VRecController vc;
-	
+
 	@Override
 	public void run() {
 		System.out.println(this.getClass().getName());
 		startUI();
 		ticket = new Ticket();
 	}
-	
+
 	private void startUI() {
 		while(shouldNotExit()){
 			int ticket_num;
@@ -32,7 +32,7 @@ public class ViolationView implements View {
 			String office_num;
 			String vtype;
 			//Date date = new Date(Calendar.getInstance().getTimeInMillis());
-			Date date = null;
+			//Date date = null;
 			String place;
 			String desc;
 			try {
@@ -58,12 +58,12 @@ public class ViolationView implements View {
 				desc = System.console().readLine("Enter description: ");
 				ticket.setDescription(desc);
 				System.out.println();
-				ticket.setVDate(date);
+				//ticket.setVDate(getDate());
 				// Set the controller to send the updates
 				vc = new VRecController(db, ticket);
 				// Send the updates
 				vc.sendViolationUpdate();
-				
+
 			} catch (NumberFormatException e) {
 				System.out.println("Invalid Input!\n");
 				continue;
@@ -73,9 +73,11 @@ public class ViolationView implements View {
 			System.out.println();
 		}
 	}
-	
+
 	private boolean shouldNotExit() {
 		return !exit;
 	}
+
+
 
 }
