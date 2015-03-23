@@ -36,6 +36,8 @@ public class ViolationView implements View {
 				// Set the controller to send the updates
 				vc = new VRecController(db);
 				// Date and TicketNumbers Generated Automatically
+				// Include error checking, Violation Controller should return a boolean and the view processes the boolean and 
+				// if error, inform user then go back to main menu
 				vc.setTicketNo();
 				vc.setDate();
 				violator_num = System.console().readLine("Enter Violator SIN: ");

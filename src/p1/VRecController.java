@@ -1,9 +1,9 @@
 package p1;
 
-import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import jdbc.JDBC;
 
@@ -15,6 +15,7 @@ public class VRecController {
 	public VRecController(JDBC db) {
 		this.db = db;
 		this.ticket = new Ticket();
+		
 	}
 	
 	public void sendViolationUpdate() throws SQLException {
@@ -40,12 +41,33 @@ public class VRecController {
 		ticket.setVDate(output);
 		return output;
 	}
-	// TODO error checking
+	// TODO error checking, also check whether elements are already in the database
 	public void setTicketNo() throws SQLException {
 		ticket.setTicket_no(getTicketCount());
 	}
-	public void setViolatorNo(String violator_no) {
-		ticket.setViolator_no(violator_no);
+	public boolean setViolatorNo(String violator_no) {
+		boolean violator_exist = false;
+		boolean error = false;
+		ResultSet rs;
+		try {
+			rs = db.sendQuery("select * from people where sin="+"'"+violator_no+"'");
+			rs.next();
+		} catch (SQLException e) {
+			// If query returns no violator no then user can proceed entering 
+			System.out.println(e.getMessage());
+			System.out.println("Violator does not exist!");
+			violator_exist = false;
+		}
+		if (violator_no.length() > 15) {
+			error = true;
+			return error;
+		} else if (violator_exist == true) {
+			error = true;
+			return error;
+		} else {
+			ticket.setViolator_no(violator_no);
+			return true;
+		}			
 	}
 	public void setVehicleID(String vehicle_id) {
 		ticket.setVehicle_id(vehicle_id);
