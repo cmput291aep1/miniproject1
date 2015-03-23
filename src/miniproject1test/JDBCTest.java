@@ -48,55 +48,55 @@ public class JDBCTest {
  * and the number of violations it has been involved by entering the vehicle's serial number.
  */
 
-	@Test(expected = Exception.class)
-	// Use Case: Database User Connects to the Database
-	public void testConnection() throws SQLException, ClassNotFoundException {
-		String username = "edrick";
-		String password = "cwielkisbl7";
-		String driver = "123123";
-		String url = "123123";
-		JDBC jdbcManager = new JDBC(driver, url, username, password);
-		jdbcManager.connect();
-	}
-	
-	@Test
-	// Use Case: Database User queries the database
-	public void testSendQuery() throws SQLException, ClassNotFoundException {
-		String m_driverName = "oracle.jdbc.driver.OracleDriver";
-		String m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
-		String username = "edrick";
-		String password = "cwielkisbl7";
-		JDBC jdbcMgr = new JDBC(username, password);
-		
-		// ResultSet
-		ResultSet rs = 	jdbcMgr.sendQuery("select name from people");
-		// Expected Result
-		ArrayList<String> re = new ArrayList<String>();
-		re.add(0, "Nathaniel");
-		re.add(1, "Sophia");
-		re.add(2, "Lucas");
-		re.add(3, "George");
-		re.add(4, "Rose");
-		re.add(5, "Dante");
-		re.add(6, "Hieu");
-		re.add(7, "Monica");
-		
-		int flag = 0;
-		for (int i = 0; i < 8; i++) {
-			
-			if (rs.next()==true) {
-				if (!rs.getString("Name").equals(re.get(i))) {
-					flag = 1;
-					System.out.println("RS: " + rs.getString("Name") + " RE: " + re.get(i));
-				} else {
-					flag = 0;
-				}
-				
-			}
-		}
-		rs.close();
-		assertEquals(flag, 0);	
-	}
+//	@Test(expected = Exception.class)
+//	// Use Case: Database User Connects to the Database
+//	public void testConnection() throws SQLException, ClassNotFoundException {
+//		String username = "edrick";
+//		String password = "cwielkisbl7";
+//		String driver = "123123";
+//		String url = "123123";
+//		JDBC jdbcManager = new JDBC(driver, url, username, password);
+//		jdbcManager.connect();
+//	}
+//	
+//	@Test
+//	// Use Case: Database User queries the database
+//	public void testSendQuery() throws SQLException, ClassNotFoundException {
+//		String m_driverName = "oracle.jdbc.driver.OracleDriver";
+//		String m_url = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
+//		String username = "edrick";
+//		String password = "cwielkisbl7";
+//		JDBC jdbcMgr = new JDBC(username, password);
+//		
+//		// ResultSet
+//		ResultSet rs = 	jdbcMgr.sendQuery("select name from people");
+//		// Expected Result
+//		ArrayList<String> re = new ArrayList<String>();
+//		re.add(0, "Nathaniel");
+//		re.add(1, "Sophia");
+//		re.add(2, "Lucas");
+//		re.add(3, "George");
+//		re.add(4, "Rose");
+//		re.add(5, "Dante");
+//		re.add(6, "Hieu");
+//		re.add(7, "Monica");
+//		
+//		int flag = 0;
+//		for (int i = 0; i < 8; i++) {
+//			
+//			if (rs.next()==true) {
+//				if (!rs.getString("Name").equals(re.get(i))) {
+//					flag = 1;
+//					System.out.println("RS: " + rs.getString("Name") + " RE: " + re.get(i));
+//				} else {
+//					flag = 0;
+//				}
+//				
+//			}
+//		}
+//		rs.close();
+//		assertEquals(flag, 0);	
+//	}
 	
 	@Test(expected = Exception.class)
 	public void testSendUpdate() throws SQLException, ClassNotFoundException {
