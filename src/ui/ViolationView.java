@@ -26,41 +26,36 @@ public class ViolationView implements View {
 
 	private void startUI() {
 		while(shouldNotExit()){
-			int ticket_num;
 			String violator_num;
 			String vehicle_num;
 			String office_num;
 			String vtype;
-			//Date date = new Date(Calendar.getInstance().getTimeInMillis());
-			//Date date = null;
 			String place;
 			String desc;
 			try {
-				// Ticket number must be automatically generated, find number total number of tickets then add 1 to count
-				ticket_num = Integer.parseInt(System.console().readLine("Enter Ticket Number: "));
-				ticket.setTicket_no(ticket_num);
-				System.out.println();
+				// Set the controller to send the updates
+				vc = new VRecController(db);
+				// Date and TicketNumbers Generated Automatically
+				vc.setTicketNo();
+				vc.setDate();
 				violator_num = System.console().readLine("Enter Violator SIN: ");
-				ticket.setViolator_no(violator_num);
+				vc.setViolatorNo(violator_num);
 				System.out.println();
 				vehicle_num = System.console().readLine("Enter Vehicle Serial Number: ");
-				ticket.setVehicle_id(vehicle_num);
+				vc.setVehicleID(vehicle_num);
 				System.out.println();
 				office_num = System.console().readLine("Enter Officer SIN: ");
-				ticket.setOffice_no(office_num);
+				vc.setOfficeNo(office_num);
 				System.out.println();
 				vtype = System.console().readLine("Enter Ticket Type: ");
-				ticket.setVType(vtype);
+				vc.setVType(vtype);
 				System.out.println();
 				place = System.console().readLine("Enter Place of Violation: ");
-				ticket.setPlace(place);
+				vc.setPlace(place);
 				System.out.println();
 				desc = System.console().readLine("Enter description: ");
-				ticket.setDescription(desc);
+				vc.setDesc(desc);
 				System.out.println();
-				//ticket.setVDate(getDate());
-				// Set the controller to send the updates
-				vc = new VRecController(db, ticket);
 				// Send the updates
 				vc.sendViolationUpdate();
 

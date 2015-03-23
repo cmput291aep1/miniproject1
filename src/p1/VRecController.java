@@ -12,9 +12,9 @@ public class VRecController {
 	private JDBC db;
 	private Ticket ticket;
 	
-	public VRecController(JDBC db, Ticket ticket) {
+	public VRecController(JDBC db) {
 		this.db = db;
-		this.ticket = ticket;
+		this.ticket = new Ticket();
 	}
 	
 	public void sendViolationUpdate() throws SQLException {
@@ -32,6 +32,39 @@ public class VRecController {
 		return count;
 	}
 	
+	public String getDate() {
+		Date cDate = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+		String output = sdf.format(cDate);
+		System.out.println("DATE: " + output);
+		ticket.setVDate(output);
+		return output;
+	}
+	// TODO error checking
+	public void setTicketNo() throws SQLException {
+		ticket.setTicket_no(getTicketCount());
+	}
+	public void setViolatorNo(String violator_no) {
+		ticket.setViolator_no(violator_no);
+	}
+	public void setVehicleID(String vehicle_id) {
+		ticket.setVehicle_id(vehicle_id);
+	}
+	public void setOfficeNo(String office_no) {
+		ticket.setOffice_no(office_no);
+	}
+	public void setVType(String vtype) {
+		ticket.setVType(vtype);
+	}
+	public void setPlace(String place) {
+		ticket.setPlace(place);
+	}
+	public void setDesc(String desc) {
+		ticket.setDescription(desc);
+	}
+	public void setDate() {
+		ticket.setVDate(getDate());
+	}
 	
 	public void test() {
 		System.out.println(ticket.getVType());
@@ -40,13 +73,5 @@ public class VRecController {
 		System.out.println(ticket.getOffice_no());
 		System.out.println(ticket.getVehicle_id());
 		System.out.println(ticket.getVDate());
-	}
-	
-	public String getDate() {
-		Date cDate = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-		String output = sdf.format(cDate);
-		System.out.println("DATE: " + output);
-		return output;
 	}
 }

@@ -1,6 +1,9 @@
 package miniproject1test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -77,7 +80,7 @@ public class SearchTest {
 		String password = "cwielkisbl7";
 		Ticket ticket = new Ticket();
 		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
-		VRecController vc = new VRecController(mgr, ticket);
+		VRecController vc = new VRecController(mgr);
 		System.out.println("Ticket Count: " + vc.getTicketCount());
 		Date date = new Date(Calendar.getInstance().getTimeInMillis());
 		System.out.println(date);
@@ -106,24 +109,35 @@ public class SearchTest {
 		String username = "edrick";
 		String password = "cwielkisbl7";
 		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
-		
 		Ticket t = new Ticket();
-		int ticket_num = 11112;
 		String violator_num = "S01";
 		String vehicle_num= "S02";
 		String office_num= "S01";
 		String vtype= "SPEEDING";
 		String place = "12345";
 		String desc= "12345";
-		VRecController vc = new VRecController(mgr, t);
-		t.setViolator_no(violator_num);
-		t.setVehicle_id(vehicle_num);
-		t.setOffice_no(office_num);
-		t.setVType(vtype);
-		t.setPlace(place);
-		t.setDescription(desc);
-		t.setVDate(vc.getDate());
+		VRecController vc = new VRecController(mgr);
+		vc.setViolatorNo(violator_num);
+		vc.setVehicleID(vehicle_num);
+		vc.setOfficeNo(office_num);
+		vc.setVType(vtype);
+		vc.setPlace(place);
+		vc.setDesc(desc);
+		vc.setTicketNo();
+		vc.setDate();
+		vc.test();
 		vc.sendViolationUpdate();
+		int currentNumofTickets = vc.getTicketCount()-1;
+		ResultSet rs = mgr.sendQuery("select * from ticket where ticket_no="+currentNumofTickets);
+		rs.next();
+		assertEquals(rs.getInt("ticket_no"),currentNumofTickets);
+		assertEquals(rs.getString("violator_no").trim(),"s01");
+		assertEquals(rs.getString("vehicle_id").trim(),"s02");
+		assertEquals(rs.getString("office_no").trim(),"s01");
+		//assertEquals(rs.getString("vdate"),vc.getDate());
+		assertEquals(rs.getString("vtype").trim(), "speeding");
+		assertEquals(rs.getString("place").trim(),"12345");
+		assertEquals(rs.getString("descriptions").trim(),"12345");
 	}
 	
 
