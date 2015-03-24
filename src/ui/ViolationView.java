@@ -41,7 +41,12 @@ public class ViolationView implements View {
 				vc.setTicketNo();
 				vc.setDate();
 				violator_num = System.console().readLine("Enter Violator SIN: ");
-				vc.setViolatorNo(violator_num);
+				
+				if (vc.setViolatorNo(violator_num) == true) {
+					System.console().printf("Violator SIN Invalid \n");
+					violator_num = System.console().readLine("Please Enter a valid SIN: ");
+				}
+				
 				System.out.println();
 				vehicle_num = System.console().readLine("Enter Vehicle Serial Number: ");
 				vc.setVehicleID(vehicle_num);
@@ -74,7 +79,6 @@ public class ViolationView implements View {
 	private boolean shouldNotExit() {
 		return !exit;
 	}
-
-
+	
 
 }

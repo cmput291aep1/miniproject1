@@ -110,14 +110,14 @@ public class SearchTest {
 		String password = "cwielkisbl7";
 		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
 		Ticket t = new Ticket();
-		String violator_num = "S01";
+		String violator_num = "S11123123123123123123123123";
 		String vehicle_num= "S02";
 		String office_num= "S01";
 		String vtype= "SPEEDING";
 		String place = "12345";
 		String desc= "12345";
 		VRecController vc = new VRecController(mgr);
-		vc.setViolatorNo(violator_num);
+		boolean errorcode = vc.setViolatorNo(violator_num);
 		vc.setVehicleID(vehicle_num);
 		vc.setOfficeNo(office_num);
 		vc.setVType(vtype);
@@ -125,6 +125,7 @@ public class SearchTest {
 		vc.setDesc(desc);
 		vc.setTicketNo();
 		vc.setDate();
+		System.out.println("Violator Error Code: " + errorcode);
 		vc.test();
 //		vc.sendViolationUpdate();
 //		int currentNumofTickets = vc.getTicketCount()-1;
