@@ -73,8 +73,30 @@ public class VRecController {
 		}			
 	}
 
-	public void setVehicleID(String vehicle_id) {
-		ticket.setVehicle_id(vehicle_id);
+	// Returns: 0 for No Error, 1 for Vehicle Doesn't Exist, 2 for Primary Owner Retrieved, 3 for WrongDataType
+	public int setVehicleID(String vehicle_id) throws SQLException {
+		boolean vehicle_exist = false;
+		ResultSet rs = db.sendQuery("select * from owner where vehicle_id="+"'"+vehicle_id+"'");
+		rs.next();
+		int rc = 0;
+		if (vehicle_id.length() > 15) {
+			System.out.println("Input Too Long > 15!!!");
+			rc = 1;
+			return rc;
+		} else if (vehicle_exist == false) {
+			System.out.println("Vehicle Does Not Exist");
+			rc = 1;
+			return rc;
+		} else if (vehicle_exist == true) {
+			System.out.println("Vehicle Exists, retrieving owner information");
+			setViolatorNo(rs.getString("owner_id"));
+			rc = 2;
+			return rc;
+		} else {
+			System.out.println("No Errors Found!");
+			ticket.setVehicle_id(vehicle_id);
+			return rc;
+		}	
 	}
 	public void setOfficeNo(String office_no) {
 		ticket.setOffice_no(office_no);
