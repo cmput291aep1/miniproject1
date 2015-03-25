@@ -1,13 +1,19 @@
 package ui;
 
+import jdbc.JDBC;
 import p1.VRegController;
 
 public class VehicleView implements View {
-	private VRegController vcon=new VRegController();
+	private VRegController vcon;
+	private JDBC db;
+	public VehicleView(JDBC db) {
+		this.db=db;
+		vcon=new VRegController(db);
+	}
 	@Override
 	public void run() {
-		vcon.printSomeThing();
-		//registerNewVehicle();
+		//vcon.printSomeThing();
+		registerNewVehicle();
 	}
 	//vehicle( serial_no, maker, model, year, color, type_id )
 	private void registerNewVehicle() {
@@ -15,10 +21,25 @@ public class VehicleView implements View {
 		addOwners();
 		addMaker();
 		addModel();
-		addMaker();
+		addYear();
 		addColor();
 		declareTypeID();
 		vcon.submit();
+	}
+	private void addYear() {
+		boolean success=false;
+		while(!success){
+			try {
+				vcon.setYear(System.console().readLine("Enter vehicle year:"));
+				success=true;
+			} catch (NumberFormatException e) {
+				success=false;
+				String response=System.console().readLine("Not a Number.Make a correction or abandon?(y\n)");
+				if(!response.equalsIgnoreCase("y")){
+					success=true;
+				}
+			}
+		}
 	}
 	private void declareTypeID() {
 		boolean success=false;

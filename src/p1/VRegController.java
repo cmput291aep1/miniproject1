@@ -1,6 +1,7 @@
 package p1;
 
 import java.io.FileNotFoundException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,6 +14,9 @@ public class VRegController {
 	private ArrayList<People> secOwners=new ArrayList<People>();
 	private JDBC db;
 	private boolean multi_owners;
+	private ResultSet rs;
+	private boolean repeat=false;
+	
 	
 	public VRegController(JDBC DB){
 		db=DB;
@@ -45,26 +49,27 @@ public class VRegController {
 	}
 
 	private void submitOwners() {
-		ResultSet rs=generateOwnerResultSet();
-		insertPrimaryOwner(rs);
-		if(multi_owners)
-			insertSecondaryOwners(rs);
+		generateOwnerResultSet();
+		boolean failed=insertPrimaryOwner();
+		if(!failed && multi_owners)
+			insertSecondaryOwners();
 		try {
 			rs.close();
 		} catch (SQLException e) {
 		}
 	}
-	private void insertSecondaryOwners(ResultSet rs) {
+	private void insertSecondaryOwners() {
 		for(People p:secOwners){
-			insertOwner(rs, p, "n");
+			insertOwner(p,"n");
 		}
 		
 	}
-	private void insertPrimaryOwner(ResultSet rs) {
-		insertOwner(rs,primary,"y");
+	private boolean insertPrimaryOwner() {
+		return insertOwner(primary,"y");
 		
 	}
-	private void insertOwner(ResultSet rs,People p,String primary) {
+	private boolean insertOwner(People p,String primary) {
+		boolean failure=false;
 		try {
 			rs.moveToInsertRow();
 			rs.updateString("owner_id",p.getSIN());
@@ -72,14 +77,37 @@ public class VRegController {
 			rs.updateString("is_primary_owner","y");
 			rs.insertRow();
 		} catch (SQLException e) {
+			if(e.getErrorCode()==2291){
+				System.out.printf("Person %s does not exist\n",p.getSIN());
+				return Resend(p,primary);
+			}
+			else{
+				e.printStackTrace();
+				failure=true;
+			}
+			generateOwnerResultSet();
+		}
+		return failure;
+	}
+	private boolean Resend(People p, String primary2) {
+		try {
+			p.setBday(Date.valueOf("1993-10-06"));
+			db.sendModelinfo(p);
+			insertOwner(p,primary2);
+		} catch (FileNotFoundException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return true;
 		}
+		return false;
+		
 	}
 	private ResultSet generateOwnerResultSet() {
 		// owner(owner_id, vehicle_id, is_primary_owner)
 		try {
-			 return db.sendQuery("select owner_id,vehicle_id,is_primary_owner from owner");
+			 rs=db.sendQuery("select owner_id,vehicle_id,is_primary_owner from owner");
+			 return rs;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -111,9 +139,8 @@ public class VRegController {
 		v1.setModel(readLine);
 		
 	}
-	public void printSomeThing() {
-		System.out.println("50");
+	public void setYear(String readLine) throws NumberFormatException {
+		v1.setYear(Integer.parseInt(readLine));
 		
 	}
-
 }

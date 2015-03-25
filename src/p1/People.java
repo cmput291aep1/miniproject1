@@ -4,14 +4,14 @@ import java.sql.Date;
 
 public class People extends Model {
 
-	private String sin;
-	private String name;
+	private String sin="";
+	private String name="";
 	private double height;
 	private double weight;
-	private String eyecolor;
-	private String haircolor;
-	private String addr;
-	private String gender;
+	private String eyecolor="";
+	private String haircolor="";
+	private String addr="";
+	private String gender="";
 	private Date bday;
 	
 	// people( sin, name, height,weight,eyecolor, haircolor,addr,gender,birthday )

@@ -44,22 +44,56 @@ public class VRegTest {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		try {
+			db.sendUpdate("drop table vehicle");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			db.sendUpdate("drop table vehicle_type");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	@Test
 	public void testSubmit() throws SQLException, FileNotFoundException {
-		db.sendModelinfo(p1);
+		vr.addSN("20189");
+		vr.setVehicleType("2");
+		vr.setVModel("toyota");
+		vr.addPrimaryOwner("534 411 780");
+		vr.setYear("1994");
+		vr.submit();
 		ResultSet rs=db.sendQuery("SELECT * FROM vehicle");
 		rs.next();
+		assertEquals(rs.getString(rs.findColumn("serial_no")).trim(),"20189");
+		assertEquals(rs.getString("model").trim(), "Toyota".toLowerCase());
+		assertEquals(rs.getInt("year"),1994);
+		rs.close();
 		
-		assertEquals(rs.getString(rs.findColumn("sin")).trim(),"1234");
-		assertEquals(rs.getDate("birthday"), date);
+		//owner(owner_id, vehicle_id, is_primary_owner)
+		ResultSet ts=db.sendQuery("SELECT * FROM owner");
+		ts.next();
+		assertEquals(ts.getString(ts.findColumn("vehicle_id")).trim(),"20189");
+		assertEquals(ts.getString(ts.findColumn("owner_id")).trim(),"534 411 780");
 	}	
-	
+	@Test
+	public void testOwners(){
+		vr.addSN("20189");
+		vr.setVehicleType("2");
+		vr.setVModel("toyota");
+		vr.addPrimaryOwner("534");
+		vr.setYear("1994");
+		vr.submit();
+	}
 	private void setUpTable() throws SQLException, ClassNotFoundException{
 		db.sendUpdate("CREATE TABLE  people (sin CHAR(15),name VARCHAR(40),height number(5,2),weight number(5,2),eyecolor VARCHAR (10),haircolor VARCHAR(10),addr VARCHAR2(50),gender CHAR,birthday DATE,PRIMARY KEY (sin),CHECK (gender IN ('m', 'f')))");
 		populatePeople();
 		db.sendUpdate("CREATE TABLE vehicle_type (type_id integer,type CHAR(10),PRIMARY KEY (type_id))");
 		populateVehicleType();
 		db.sendUpdate("CREATE TABLE vehicle (serial_no CHAR(15),maker VARCHAR(20),model VARCHAR(20),year number(4,0),color VARCHAR(10),type_id integer,PRIMARY KEY (serial_no),FOREIGN KEY (type_id) REFERENCES vehicle_type)");
+		db.sendUpdate("CREATE TABLE owner (owner_id CHAR(15),vehicle_id CHAR(15),is_primary_owner  CHAR(1),PRIMARY KEY (owner_id, vehicle_id),FOREIGN KEY (owner_id) REFERENCES people,FOREIGN KEY (vehicle_id) REFERENCES vehicle,CHECK ( is_primary_owner IN ('y', 'n')))");
 	}
 	private void populateVehicleType() throws SQLException {
 		ResultSet rs=db.sendQuery("SELECT type_id,type FROM vehicle_type");

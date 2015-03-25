@@ -49,10 +49,10 @@ public class peopleTest {
 		assertTrue(statement.equals("INSERT INTO people (sin,name,height,weight,eyecolor,haircolor,addr,gender,birthday) VALUES ('1234','Bob',6.1,13.0,'','','','',TO_DATE('1993-10-06','YYYY-MM-DD'))"));
 		
 	}
-	@Ignore @Test
+	@Test
 	public void testSend() throws SQLException, FileNotFoundException {
 		db.sendModelinfo(p1);
-		ResultSet rs=db.sendQuery("SELECT * FROM vehicle");
+		ResultSet rs=db.sendQuery("SELECT * FROM people");
 		rs.next();
 		
 		assertEquals(rs.getString(rs.findColumn("sin")).trim(),"1234");

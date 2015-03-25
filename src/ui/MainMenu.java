@@ -68,7 +68,7 @@ public class MainMenu {
 		View v = null;
 		switch(selection){
 			case 1:
-				v=new VehicleView();
+				v=new VehicleView(db);
 				break;
 			case 2:
 				v=new AutoTransView();
