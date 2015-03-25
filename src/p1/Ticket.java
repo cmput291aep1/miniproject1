@@ -50,28 +50,28 @@ public class Ticket extends Model {
 		return this.violator_no;
 	}
 	public void setViolator_no(String violator_no) {
-		this.violator_no = violator_no.toLowerCase();
+		this.violator_no = violator_no;
 	}
 	
 	public String getVehicle_id() {
 		return this.vehicle_id;
 	}
 	public void setVehicle_id(String vehicle_id) {
-		this.vehicle_id = vehicle_id.toLowerCase();
+		this.vehicle_id = vehicle_id;
 	}
 	
 	public String getOffice_no() {
 		return this.office_no;
 	}
 	public void setOffice_no(String office_no) {
-		this.office_no = office_no.toLowerCase();
+		this.office_no = office_no;
 	}
 	
 	public String getVType() {
 		return this.vtype;
 	}
 	public void setVType(String vtype) {
-		this.vtype = vtype.toLowerCase();
+		this.vtype = vtype;
 	}
 	
 	public String getVDate() {
