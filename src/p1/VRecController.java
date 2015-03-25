@@ -30,6 +30,7 @@ public class VRecController {
 			count = Integer.parseInt(rs.getString("count")) + 1;
 		}
 		System.out.println("New Ticket will be Ticket Number: " + count);
+		rs.close();
 		return count;
 	}
 
@@ -41,7 +42,7 @@ public class VRecController {
 		ticket.setVDate(output);
 		return output;
 	}
-	// TODO error checking, also check whether elements are already in the database
+	
 	public void setTicketNo() throws SQLException {
 		ticket.setTicket_no(getTicketCount());
 	}
@@ -49,10 +50,10 @@ public class VRecController {
 		boolean violator_exist = true;
 		boolean error = false;
 		ResultSet rs;
-		
+
 		rs = db.sendQuery("select * from people where sin="+"'"+violator_no+"'");
 		violator_exist = rs.next();
-		
+
 		// if length is greater than 15, tell user it is INVALID
 		if (violator_no.length() > 15) {
 			System.out.println("Violator Number length > 15!!!");
@@ -75,41 +76,91 @@ public class VRecController {
 
 	// Returns: 0 for No Error, 1 for Vehicle Doesn't Exist, 2 for Primary Owner Retrieved, 3 for WrongDataType
 	public int setVehicleID(String vehicle_id) throws SQLException {
-		boolean vehicle_exist = false;
 		ResultSet rs = db.sendQuery("select * from owner where vehicle_id="+"'"+vehicle_id+"'");
-		rs.next();
+		boolean vehicle_exist = rs.next();
 		int rc = 0;
+		// Input too long
 		if (vehicle_id.length() > 15) {
 			System.out.println("Input Too Long > 15!!!");
 			rc = 1;
+			rs.close();
 			return rc;
+		// Vehicle Does Not Exist
 		} else if (vehicle_exist == false) {
-			System.out.println("Vehicle Does Not Exist");
 			rc = 1;
+			rs.close();
 			return rc;
+		// Vehicle Exists
 		} else if (vehicle_exist == true) {
-			System.out.println("Vehicle Exists, retrieving owner information");
-			setViolatorNo(rs.getString("owner_id"));
-			rc = 2;
+			boolean try_again = true;
+			while(try_again) {
+				String response = System.console().readLine("Vehicle Exists, Primary Owner of vehicle identified.\nUse primary owner as violator? (y/n): ");
+				if (response.toLowerCase().equals("y")) {
+					setViolatorNo(rs.getString("owner_id"));
+					rc = 2;
+					try_again = false;
+				} else if(response.toLowerCase().equals("n")) {
+					rc = 0;
+					try_again = false;
+				} else {
+					System.console().printf("Invalid Respnse, try again\n");
+					try_again = true;
+				}
+			}
+			ticket.setVehicle_id(vehicle_id);
+			rs.close();
 			return rc;
 		} else {
-			System.out.println("No Errors Found!");
 			ticket.setVehicle_id(vehicle_id);
+			rs.close();
 			return rc;
 		}	
 	}
-	public void setOfficeNo(String office_no) {
-		ticket.setOffice_no(office_no);
+	public boolean setOfficeNo(String office_no) {
+		boolean error = false;
+		if (office_no.length() > 15) {
+			error = true;
+			return error;
+		} else {
+			error = false;
+			ticket.setOffice_no(office_no);
+			return error;
+		}
 	}
-	public void setVType(String vtype) {
-		ticket.setVType(vtype);
+	public boolean setVType(String vtype) {
+		boolean error = false;
+		if(vtype.length() > 10) {
+			error = true;
+			return error;
+		} else {
+			error = false;
+			ticket.setVType(vtype);
+			return error;
+		}
 	}
-	public void setPlace(String place) {
-		ticket.setPlace(place);
+	public boolean setPlace(String place) {
+		boolean error = false;
+		if (place.length() > 20) {
+			error = true;
+			return error;
+		} else {
+			error = false;
+			ticket.setPlace(place);
+			return error;
+		}	
 	}
-	public void setDesc(String desc) {
-		ticket.setDescription(desc);
+	public boolean setDesc(String desc) {
+		boolean error = false;
+		if (desc.length() > 1024) {
+			error = true;
+			return error;
+		} else {
+			error = false;
+			ticket.setDescription(desc);
+			return error;
+		}	
 	}
+	
 	public void setDate() {
 		ticket.setVDate(getDate());
 	}

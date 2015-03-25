@@ -77,7 +77,7 @@ public class MainMenu {
 				v=new DLView();
 				break;
 			case 4:
-				v=new ViolationView();
+				v=new ViolationView(db);
 				break;
 			case 5:
 				v=new SearchView();
