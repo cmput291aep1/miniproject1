@@ -36,14 +36,47 @@ public class ViolationView implements View {
 				// Set the controller to send the updates
 				vc = new VRecController(db);
 				// Date and TicketNumbers Generated Automatically
+				// Include error checking, Violation Controller should return a boolean and the view processes the boolean and 
+				// if error, inform user then go back to main menu
 				vc.setTicketNo();
 				vc.setDate();
-				violator_num = System.console().readLine("Enter Violator SIN: ");
-				vc.setViolatorNo(violator_num);
-				System.out.println();
+
 				vehicle_num = System.console().readLine("Enter Vehicle Serial Number: ");
-				vc.setVehicleID(vehicle_num);
+				int setVehicleCode = vc.setVehicleID(vehicle_num);
+				// If Vehicle Doesn't Exist
+				if (setVehicleCode == 1) {
+					String response=System.console().readLine("Vehicle does not exist.Try Again(y/n)?");
+					if(response.equals("y")){
+						continue;
+					}
+					else if(response.equals("n")){
+						return;
+					}
+					else{
+						System.out.println("\nInvalid Response... Terminating");
+						return;
+					}
+				}
 				System.out.println();
+
+				// If Primary Owner is known, Prompt user to input Violator Number
+				if (setVehicleCode != 2) {
+					violator_num = System.console().readLine("Enter Violator SIN: ");
+					// If error code = true
+					boolean try_again = true;
+					while(try_again) {
+						// If Violator Number Does Not Exists, try again
+						if (vc.setViolatorNo(violator_num) == true) {
+							System.console().printf("Violator SIN Invalid \n");
+							violator_num = System.console().readLine("Please Enter a valid SIN: ");
+							System.out.println();
+						} else {
+							try_again = false;
+						}
+						System.out.println();
+					}
+				}
+
 				office_num = System.console().readLine("Enter Officer SIN: ");
 				vc.setOfficeNo(office_num);
 				System.out.println();
@@ -72,7 +105,6 @@ public class ViolationView implements View {
 	private boolean shouldNotExit() {
 		return !exit;
 	}
-
 
 
 }

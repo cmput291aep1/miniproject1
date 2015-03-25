@@ -110,14 +110,14 @@ public class SearchTest {
 		String password = "cwielkisbl7";
 		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
 		Ticket t = new Ticket();
-		String violator_num = "S01";
+		String violator_num = "S11123123123123123123123123";
 		String vehicle_num= "S02";
 		String office_num= "S01";
 		String vtype= "SPEEDING";
 		String place = "12345";
 		String desc= "12345";
 		VRecController vc = new VRecController(mgr);
-		vc.setViolatorNo(violator_num);
+		boolean errorcode = vc.setViolatorNo(violator_num);
 		vc.setVehicleID(vehicle_num);
 		vc.setOfficeNo(office_num);
 		vc.setVType(vtype);
@@ -125,19 +125,20 @@ public class SearchTest {
 		vc.setDesc(desc);
 		vc.setTicketNo();
 		vc.setDate();
+		System.out.println("Violator Error Code: " + errorcode);
 		vc.test();
-		vc.sendViolationUpdate();
-		int currentNumofTickets = vc.getTicketCount()-1;
-		ResultSet rs = mgr.sendQuery("select * from ticket where ticket_no="+currentNumofTickets);
-		rs.next();
-		assertEquals(rs.getInt("ticket_no"),currentNumofTickets);
-		assertEquals(rs.getString("violator_no").trim(),"s01");
-		assertEquals(rs.getString("vehicle_id").trim(),"s02");
-		assertEquals(rs.getString("office_no").trim(),"s01");
-		//assertEquals(rs.getString("vdate"),vc.getDate());
-		assertEquals(rs.getString("vtype").trim(), "speeding");
-		assertEquals(rs.getString("place").trim(),"12345");
-		assertEquals(rs.getString("descriptions").trim(),"12345");
+//		vc.sendViolationUpdate();
+//		int currentNumofTickets = vc.getTicketCount()-1;
+//		ResultSet rs = mgr.sendQuery("select * from ticket where ticket_no="+currentNumofTickets);
+//		rs.next();
+//		assertEquals(rs.getInt("ticket_no"),currentNumofTickets);
+//		assertEquals(rs.getString("violator_no").trim(),"s01");
+//		assertEquals(rs.getString("vehicle_id").trim(),"s02");
+//		assertEquals(rs.getString("office_no").trim(),"s01");
+//		//assertEquals(rs.getString("vdate"),vc.getDate());
+//		assertEquals(rs.getString("vtype").trim(), "speeding");
+//		assertEquals(rs.getString("place").trim(),"12345");
+//		assertEquals(rs.getString("descriptions").trim(),"12345");
 	}
 	
 

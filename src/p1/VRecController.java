@@ -1,9 +1,9 @@
 package p1;
 
-import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import jdbc.JDBC;
 
@@ -11,17 +11,18 @@ public class VRecController {
 
 	private JDBC db;
 	private Ticket ticket;
-	
+
 	public VRecController(JDBC db) {
 		this.db = db;
 		this.ticket = new Ticket();
+
 	}
-	
+
 	public void sendViolationUpdate() throws SQLException {
 		String query = "INSERT INTO ticket values ("+getTicketCount()+","+"'"+ticket.getViolator_no()+"'"+ "," +"'"+ ticket.getVehicle_id() +"'"+ "," +"'"+ ticket.getOffice_no()+"'"+ "," +"'"+ticket.getVType()+"'"+","+"to_date(" + "'" +ticket.getVDate()+"'"+",'DD-MON-YYYY')"+"," +"'"+ticket.getPlace()+"'"+ "," +"'"+ticket.getDescription()+"'"+ ")";
 		db.sendUpdate(query);
 	}
-	
+
 	public int getTicketCount() throws SQLException {
 		ResultSet rs = db.sendQuery("select count(*) as count from ticket");
 		int count = 0;
@@ -31,7 +32,7 @@ public class VRecController {
 		System.out.println("New Ticket will be Ticket Number: " + count);
 		return count;
 	}
-	
+
 	public String getDate() {
 		Date cDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
@@ -40,15 +41,62 @@ public class VRecController {
 		ticket.setVDate(output);
 		return output;
 	}
-	// TODO error checking
+	// TODO error checking, also check whether elements are already in the database
 	public void setTicketNo() throws SQLException {
 		ticket.setTicket_no(getTicketCount());
 	}
-	public void setViolatorNo(String violator_no) {
-		ticket.setViolator_no(violator_no);
+	public boolean setViolatorNo(String violator_no) throws SQLException {
+		boolean violator_exist = true;
+		boolean error = false;
+		ResultSet rs;
+		
+		rs = db.sendQuery("select * from people where sin="+"'"+violator_no+"'");
+		violator_exist = rs.next();
+		
+		// if length is greater than 15, tell user it is INVALID
+		if (violator_no.length() > 15) {
+			System.out.println("Violator Number length > 15!!!");
+			error = true;
+			rs.close();
+			return error;
+			// if violator DOES NOT exist, tell user to register the Violator first
+		} else if (violator_exist == false) {
+			System.out.println("Violator Number does not exist");
+			error = true;
+			rs.close();
+			return error;
+		} else {
+			ticket.setViolator_no(violator_no);
+			error = false;
+			rs.close();
+			return error;
+		}			
 	}
-	public void setVehicleID(String vehicle_id) {
-		ticket.setVehicle_id(vehicle_id);
+
+	// Returns: 0 for No Error, 1 for Vehicle Doesn't Exist, 2 for Primary Owner Retrieved, 3 for WrongDataType
+	public int setVehicleID(String vehicle_id) throws SQLException {
+		boolean vehicle_exist = false;
+		ResultSet rs = db.sendQuery("select * from owner where vehicle_id="+"'"+vehicle_id+"'");
+		rs.next();
+		int rc = 0;
+		if (vehicle_id.length() > 15) {
+			System.out.println("Input Too Long > 15!!!");
+			rc = 1;
+			return rc;
+		} else if (vehicle_exist == false) {
+			System.out.println("Vehicle Does Not Exist");
+			rc = 1;
+			return rc;
+		} else if (vehicle_exist == true) {
+			System.out.println("Vehicle Exists, retrieving owner information");
+			setViolatorNo(rs.getString("owner_id"));
+			rc = 2;
+			return rc;
+		} else {
+			System.out.println("No Errors Found!");
+			ticket.setVehicle_id(vehicle_id);
+			return rc;
+		}	
 	}
 	public void setOfficeNo(String office_no) {
 		ticket.setOffice_no(office_no);
@@ -65,7 +113,7 @@ public class VRecController {
 	public void setDate() {
 		ticket.setVDate(getDate());
 	}
-	
+
 	public void test() {
 		System.out.println(ticket.getVType());
 		System.out.println(ticket.getTicket_no());
