@@ -6,8 +6,8 @@ public class People extends Model {
 
 	private String sin;
 	private String name;
-	private int height;
-	private int weight;
+	private double height;
+	private double weight;
 	private String eyecolor;
 	private String haircolor;
 	private String addr;
@@ -18,7 +18,7 @@ public class People extends Model {
 	public People() {
 		
 	}
-	public People(String sin, String name, int height, int weight, String eyecolor, String haircolor, String addr, String gender, Date bday) {
+	public People(String sin, String name, double height, double weight, String eyecolor, String haircolor, String addr, String gender, Date bday) {
 		this.sin = sin;
 		this.name = name;
 		this.height = height;
@@ -42,13 +42,13 @@ public class People extends Model {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getHeight() {
+	public double getHeight() {
 		return this.height;
 	}
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	public int getWeight() {
+	public double getWeight() {
 		return this.weight;
 	}
 	public void setWeight(int weight) {
@@ -87,7 +87,7 @@ public class People extends Model {
 	
 	@Override
 	public String generateStatement() {
-		return super.generateInsert("people","sin","name","height","weight","eyecolor","haircolor","addr","gender","birthday")+" "+super.encapsulate("'"+sin+"','"+name+"','"+height+"',"+weight+",'"+eyecolor+"','"+haircolor+"','"+addr+"','"+gender+"','"+bday);
+		return super.generateInsert("people","sin","name","height","weight","eyecolor","haircolor","addr","gender","birthday")+" "+super.encapsulate("'"+sin+"','"+name+"',"+height+","+weight+",'"+eyecolor+"','"+haircolor+"','"+addr+"','"+gender+"',TO_DATE('"+bday+"','YYYY-MM-DD')");
 	}
 	
 }
