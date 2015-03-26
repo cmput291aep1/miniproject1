@@ -31,7 +31,7 @@ public class VRegTest {
 	public void setUp() throws Exception {
 		date=Date.valueOf("1993-10-06");
 		p1=new People("1234","Bob", 6.1, 13.0, "", "", "", "",date);
-		db=new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS", "bmaroney","mypasswordisc00l");
+		db=new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS", "bmaroney","mypasswordisc00l");
 		vr=new VRegController(db);
 		setUpTable();
 	}
@@ -79,13 +79,21 @@ public class VRegTest {
 		assertEquals(ts.getString(ts.findColumn("owner_id")).trim(),"534 411 780");
 	}	
 	@Test
-	public void testOwners(){
+	public void testOwners() throws SQLException{
 		vr.addSN("20189");
 		vr.setVehicleType("2");
 		vr.setVModel("toyota");
 		vr.addPrimaryOwner("534");
+		vr.addSecondaryOwner("534 411 780");
+		vr.addSecondaryOwner("630 708 949");
 		vr.setYear("1994");
 		vr.submit();
+		ResultSet rs=db.sendQuery("SELECT * FROM owner");
+		int count=0;
+		while(rs.next()){
+			count++;
+		}
+		assertEquals(3,count);
 	}
 	private void setUpTable() throws SQLException, ClassNotFoundException{
 		db.sendUpdate("CREATE TABLE  people (sin CHAR(15),name VARCHAR(40),height number(5,2),weight number(5,2),eyecolor VARCHAR (10),haircolor VARCHAR(10),addr VARCHAR2(50),gender CHAR,birthday DATE,PRIMARY KEY (sin),CHECK (gender IN ('m', 'f')))");

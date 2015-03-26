@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import ui.PersonView;
 import jdbc.JDBC;
 
 public class VRegController {
@@ -40,12 +41,12 @@ public class VRegController {
 	public void submit() {
 		try {
 			db.sendModelinfo(v1);
+			submitOwners();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		submitOwners();
 	}
 
 	private void submitOwners() {
@@ -74,15 +75,15 @@ public class VRegController {
 			rs.moveToInsertRow();
 			rs.updateString("owner_id",p.getSIN());
 			rs.updateString("vehicle_id",v1.getSerial_no());
-			rs.updateString("is_primary_owner","y");
+			rs.updateString("is_primary_owner",primary);
 			rs.insertRow();
 		} catch (SQLException e) {
 			if(e.getErrorCode()==2291){
-				System.out.printf("Person %s does not exist\n",p.getSIN());
+				System.out.printf("Person %s does not exist. They  will need to be created\n",p.getSIN());
 				return Resend(p,primary);
 			}
 			else{
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 				failure=true;
 			}
 			generateOwnerResultSet();
@@ -91,12 +92,11 @@ public class VRegController {
 	}
 	private boolean Resend(People p, String primary2) {
 		try {
-			p.setBday(Date.valueOf("1993-10-06"));
+			new PersonView().run(p);
 			db.sendModelinfo(p);
 			insertOwner(p,primary2);
 		} catch (FileNotFoundException e) {
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return true;
 		}
