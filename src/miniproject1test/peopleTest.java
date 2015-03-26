@@ -29,7 +29,7 @@ public class peopleTest {
 	public void setUp() throws Exception {
 		date=Date.valueOf("1993-10-06");
 		p1=new People("1234","Bob", 6.1, 13.0, "", "", "", "",date);
-		db=new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS", "bmaroney","mypasswordisc00l");
+		db=new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS", "bmaroney","mypasswordisc00l");
 		setUpTable();
 	}
 

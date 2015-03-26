@@ -71,7 +71,7 @@ public class MainMenu {
 				v=new VehicleView(db);
 				break;
 			case 2:
-				v=new AutoTransView();
+				v=new AutoTransView(db);
 				break;
 			case 3:
 				v=new DLView();

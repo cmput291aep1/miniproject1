@@ -24,11 +24,11 @@ public class PersonView {
 		boolean success=false;
 		while(!success){
 			try {
-				perCon.setBirthDay(System.console().readLine("Birthday (YYYY-MM-DD: "));
+				perCon.setBirthDay(System.console().readLine("Birthday (YYYY-MM-DD): "));
 				success=true;
 			} catch (IllegalArgumentException e) {
 				success=false;
-				String response=System.console().readLine("Not a Number.Make a correction(y) or abandon (n)?(y\n)");
+				String response=System.console().readLine("Invalid Date.Make a correction(y) or abandon (n)?(y\n)");
 				if(!response.equalsIgnoreCase("y")){
 					success=true;
 				}
