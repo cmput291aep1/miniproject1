@@ -11,9 +11,14 @@ public class SearchVehicleHistoryView implements View {
 	private Search search;
 	private JDBC db;
 
+	public SearchVehicleHistoryView(JDBC db) {
+		this.db = db;
+	}
+
 	@Override
 	public void run() {
 		try {
+			search = new Search(db);
 			startUI();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -25,18 +30,28 @@ public class SearchVehicleHistoryView implements View {
 		while(shouldNotExit()){
 			String vSerialNum;
 			try {
-				vSerialNum = System.console().readLine("Enter Vehicle Serial Number: ");
+				searchVehicleHistory();
+				System.out.println();
+				return;
 			} catch (NumberFormatException e) {
 				System.out.println("Invalid Input!\n");
 				continue;
 			}
-			System.out.println();
-			// TODO Do something with vSerialNum
 		}
 	}
 	
 	private boolean shouldNotExit() {
 		return !exit;
+	}
+	
+	private void searchVehicleHistory() throws SQLException {
+		String keyword;
+		keyword = System.console().readLine("Enter Serial Number: ");
+		// If return code is true, Person does not exist
+		if(search.queryVehicleHistBySerialNo(keyword) == true) {
+			System.console().printf("Sorry, the serial number does not exist in the database. Returning...\n");
+			return;
+		}
 	}
 
 }

@@ -15,37 +15,6 @@ import p1.Model;
 public class JDBC
 {
 
-	//	/**
-	//	 * @param args
-	//	 * @throws ClassNotFoundException 
-	//	 * @throws IllegalAccessException 
-	//	 * @throws InstantiationException 
-	//	 * @throws SQLException 
-	//	 */
-	//	public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException
-	//	{
-	//		String m_driverName = "oracle.jdbc.driver.OracleDriver";
-	//
-	//		Class drvClass = Class.forName(m_driverName);
-	//		//DriverManager.registerDriver((Driver)drvClass.newInstance());
-	//
-	//		// Establish Connection
-	//		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS", "edrick", "cwielkisbl7");
-	//		System.out.println("Connection Created");
-	//
-	//		// Creating a statement
-	//		Statement stmt = con.createStatement();
-	//		String query = "select name from people";
-	//		// Result
-	//		ResultSet rs = stmt.executeQuery(query);
-	//
-	//		// Retrieve Data
-	//		while(rs.next()) {
-	//			System.out.println(rs.getString("Name"));
-	//		}
-	//
-	//	}
-
 	private String username;
 	private String pw;
 	private String m_driverName;
@@ -72,7 +41,8 @@ public class JDBC
 	}
 
 	public JDBC(String username, String pw) throws SQLException, ClassNotFoundException {
-		this("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS",username,pw);
+		//this("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS",username,pw);
+		this("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,pw);
 		this.connect();
 	}
 

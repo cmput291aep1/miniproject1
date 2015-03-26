@@ -2,9 +2,16 @@ package ui;
 
 import java.sql.SQLException;
 
+import jdbc.JDBC;
+
 public class SearchView implements View {
 
 	private boolean exit=false;
+	private JDBC db;
+
+	public SearchView(JDBC db) {
+		this.db = db;
+	}
 
 	@Override
 	public void run() {
@@ -16,13 +23,13 @@ public class SearchView implements View {
 		View v = null;
 		switch(selection){
 			case 1:
-				v=new SearchGeneralInfoView();
+				v=new SearchGeneralInfoView(db);
 				break;
 			case 2:
-				v=new SearchViolationRecordsView();
+				v=new SearchViolationRecordsView(db);
 				break;
 			case 3:
-				v=new SearchVehicleHistoryView();
+				v=new SearchVehicleHistoryView(db);
 				break;
 			case 4:
 				exit=true;

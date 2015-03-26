@@ -95,6 +95,7 @@ public class ViolationView implements View {
 			}
 
 			// Check datatype of setofficeno
+			// TODO check if OFFICER EXISTS
 			boolean office_num_err = true;
 			while(office_num_err) {
 				office_num = System.console().readLine("Enter Officer SIN: ");
@@ -176,8 +177,12 @@ public class ViolationView implements View {
 			}
 			System.out.println();
 			// Send the updates
-			vc.test();
-			vc.sendViolationUpdate();
+			//vc.test();
+			try {
+				vc.sendViolationUpdate();
+			} catch (SQLException e) {
+				System.console().printf("Violation record failed!\nInvalid inputs were provided, please try again.\n");
+			}
 			System.console().printf("Violation recorded.\n");
 
 		} catch (NumberFormatException e) {

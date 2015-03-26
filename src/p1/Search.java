@@ -23,44 +23,80 @@ public class Search
 		this.mgr = mgr;
 	}
 
-	public void queryGeneralInfoByName(String searchName) throws SQLException {
+	public boolean queryGeneralInfoByName(String searchName) throws SQLException {
 		query1 = "select p.name, d.licence_no, p.addr, p.birthday, d.class, dc.description, d.expiring_date " +
 				"from people p, drive_licence d, driving_condition dc, restriction r " +
 				"where p.sin=d.sin and d.licence_no=r.licence_no and dc.c_id=r.r_id and p.name="+ "'" + searchName + "'";
 		ResultSet rs = mgr.sendQuery(query1);
-		printGeneralInfo(rs);
-		rs.close();
+		ResultSet rsCheck = mgr.sendQuery("select * from people where name="+"'"+searchName+"'");
+		boolean exists = rsCheck.next();
+		boolean error = false;
+		if (exists != true) {
+			error = true;
+			return error;
+		} else {
+			printGeneralInfo(rs);
+			rsCheck.close();
+			return error;
+		}
+		
 	}
 
-	public void queryGeneralInfoByLicenceNo(String searchLicenceNo) throws SQLException {
+	public boolean queryGeneralInfoByLicenceNo(String searchLicenceNo) throws SQLException {
 		query2 = "select p.name, d.licence_no, p.addr, p.birthday, d.class, dc.description, d.expiring_date " +
 				"from people p, drive_licence d, driving_condition dc, restriction r " +
 				"where p.sin=d.sin and d.licence_no=r.licence_no and dc.c_id=r.r_id and d.licence_no=" + "'" + searchLicenceNo + "'";
 		ResultSet rs = mgr.sendQuery(query2);
-		printGeneralInfo(rs);
-		rs.close();
-
+		ResultSet rsCheck = mgr.sendQuery("select * from drive_licence where licence_no="+"'"+searchLicenceNo+"'");
+		boolean exists = rsCheck.next();
+		boolean error = false;
+		if (exists != true) {
+			error = true;
+			return error;
+		} else {
+			printGeneralInfo(rs);
+			rsCheck.close();
+			return error;
+		}
 	}
 
-	public void queryViolationBySIN(String searchSIN) throws SQLException {
+	public boolean queryViolationBySIN(String searchSIN) throws SQLException {
 		query3 = "select distinct ticket_no, violator_no, vehicle_id, office_no, vtype, vdate, place, descriptions " +
 				"from ticket, people p " +
 				"where violator_no=p.sin AND p.sin=" + "'" + searchSIN + "'";
 		ResultSet rs = mgr.sendQuery(query3);
-		printViolations(rs);
-		rs.close();
+		ResultSet rsCheck = mgr.sendQuery("select * from people where sin="+"'"+searchSIN+"'");
+		boolean exists = rsCheck.next();
+		boolean error = false;
+		if (exists != true) {
+			error = true;
+			return error;
+		} else {
+			printViolations(rs);
+			rsCheck.close();
+			return error;
+		}
 	}
 
-	public void queryViolationByLicenceNo(String searchLicenceNo) throws SQLException {
+	public boolean queryViolationByLicenceNo(String searchLicenceNo) throws SQLException {
 		query4 = "select distinct ticket_no, violator_no, vehicle_id, office_no, vtype, vdate, place, descriptions " +
 				"from ticket, people p, drive_licence d " +
 				"where violator_no=p.sin AND p.sin=d.sin AND d.licence_no=" + "'" + searchLicenceNo + "'";
 		ResultSet rs = mgr.sendQuery(query4);
-		printViolations(rs);
-		rs.close();
+		ResultSet rsCheck = mgr.sendQuery("select * from drive_licence where licence_no="+"'"+searchLicenceNo+"'");
+		boolean exists = rsCheck.next();
+		boolean error = false;
+		if (exists != true) {
+			error = true;
+			return error;
+		} else {
+			printViolations(rs);
+			rsCheck.close();
+			return error;
+		}
 	}
 	
-	public void queryVehicleHistBySerialNo(String searchVehicleID) throws SQLException {
+	public boolean queryVehicleHistBySerialNo(String searchVehicleID) throws SQLException {
 		query5 = "select vehicle_id, COUNT(*) as TotalChangedHand, AVG(Price) as AveragePrice " +
 				"from auto_sale " +
 				"group by vehicle_id " +
@@ -71,81 +107,52 @@ public class Search
 				"having vehicle_id=" + "'" + searchVehicleID + "'";
 		ResultSet rs1 = mgr.sendQuery(query5);
 		ResultSet rs2 = mgr.sendQuery(query6);
-		printVehicleHistory(rs1,rs2);
-		rs1.close();
-		rs2.close();
+		ResultSet rsCheck = mgr.sendQuery("select * from vehicle where serial_no="+"'"+searchVehicleID+"'");
+		boolean exists = rsCheck.next();
+		boolean error = false;
+		if (exists != true) {
+			error = true;
+			return error;
+		} else {
+			printVehicleHistory(rs1,rs2);
+			rsCheck.close();
+			return error;
+		}
 	}
 	
 	
 	private void printGeneralInfo(ResultSet rs) throws SQLException {
-		rs.beforeFirst();
 		System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n","Name", "Licence_No", "Addr", "Birthday", "Class", "Expiring_Date", "Description");
 		while(rs.next()){
-			System.console().printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n", rs.getString("Name"),rs.getString("Licence_No"),rs.getString("Addr"),rs.getString("Birthday"),rs.getString("Class"),rs.getString("Expiring_Date"),rs.getString("Description"));
+			System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n", rs.getString("Name"),rs.getString("Licence_No"),rs.getString("Addr"),rs.getString("Birthday"),rs.getString("Class"),rs.getString("Expiring_Date"),rs.getString("Description"));
 		}
+		rs.close();
 	}
 	
 	private void printViolations(ResultSet rs) throws SQLException {
-		rs.beforeFirst();
+		if (rs.next() == false) {
+			System.out.println("No Violation Records Found.");
+			System.out.println();
+			rs.close();
+			return;
+		}
 		System.out.printf("%-15s%-15s%-15s%-15s%-15s%-22s%-20s%-1024s\n","Ticket_No","Violator_No","Vehicle_ID","Office_No","vType","vDate","Place","Descriptions");
 		while(rs.next()){
 			System.out.printf("%-15s%-12s%-3s%-10s%-15s%-22s%-20s%-1024s\n", rs.getString("Ticket_No"),rs.getString("Violator_No"),rs.getString("Vehicle_ID"),rs.getString("Office_No"),rs.getString("vType"),rs.getString("vDate"),rs.getString("Place"),rs.getString("Descriptions"));
 		}
+		rs.close();
 	}
 	
 	private void printVehicleHistory(ResultSet rs1, ResultSet rs2) throws SQLException {
 		System.out.printf("%-21s%-17s%-10s\n", "# of Changed Hand", "Average Price", "# of Violations");
 		while(rs1.next()&rs2.next()) {
-			System.out.printf("%-21s%-17s%-10s", rs1.getInt("TotalChangedHand"), rs1.getFloat("AveragePrice"), rs2.getInt("TotalViolations"));
+			System.out.printf("%-21s%-17s%-10s\n", rs1.getInt("TotalChangedHand"), rs1.getFloat("AveragePrice"), rs2.getInt("TotalViolations"));
 		}
+		rs1.close();
+		rs2.close();
 	}
-
-
 
 	public int getHeadersSize() {
 		return headers.length;
 	}
-
-	
-//	public ArrayList<String> collectData(ResultSet rs, String... columnNames) throws SQLException {
-//	// TODO Auto-generated method stub
-//	ArrayList<String> dataArray = new ArrayList<String>();
-//	// Retrieve Column names
-//	headers = columnNames;
-//	// Insert header into dataArray
-//	for (int i = 0; i < headers.length; i++) {
-//		dataArray.add(headers[i]);
-//	}
-//
-//	while(rs.next()) {
-//		for (int i = 0; i < headers.length; i++) {
-//			dataArray.add(rs.getString(headers[i]).trim());
-//		}
-//	}
-////	System.out.println("DATA ARRAY SIZE = " + dataArray.size());
-////	for (int i = 0; i < dataArray.size(); i++) {
-////		System.out.println(dataArray.get(i));
-////	}
-//	return dataArray;
-//}	
-//
-//
-//public void printResult(ArrayList<String> dataCollected, int headerLength) throws SQLException {
-//	// TODO Auto-generated method stub
-//
-//	// Print headers first
-//	StringBuilder sbData = new StringBuilder();
-//	// Print Results
-//
-//	int columnCounter = 0;
-//	for (int i = 0; i < dataCollected.size(); i++) {
-//		sbData.append(dataCollected.get(i) + "\t");
-//		columnCounter++;
-//		if (columnCounter%headerLength == 0) {
-//			columnCounter = 0;
-//			System.out.println(sbData.toString());
-//			sbData.setLength(0);
-//		}
-//	}
-//}
 }

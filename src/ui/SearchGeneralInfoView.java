@@ -12,34 +12,38 @@ public class SearchGeneralInfoView implements View {
 	private Search search;
 	private JDBC db;
 
+	public SearchGeneralInfoView(JDBC db) {
+		this.db = db;
+	}
 	@Override
 	public void run() {
 		try {
-			
-			//search = new Search(db);
+
+			search = new Search(db);
 			startUI();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
 	private void PerformSelection(int selection) throws SQLException {
 		View v = null;
 		switch(selection){
-			case 1:
-				// TODO
-				//searchByLicenceNo();
-				break;
-			case 2:
-				// TODO
-				break;
-			case 3:
-				exit=true;
-				return;
-			default:
-				System.out.println("Invalid Selection\n");
-				return;
+		case 1:
+			// Search for General Info Using Licence Number
+			searchByLicenceNo();
+			break;
+		case 2:
+			// Search for General Info using NAME
+			searchByName();
+			break;
+		case 3:
+			exit=true;
+			return;
+		default:
+			System.out.println("Invalid Selection\n");
+			return;
 		}		
 	}
 	private void startUI() throws SQLException {
@@ -56,19 +60,30 @@ public class SearchGeneralInfoView implements View {
 			PerformSelection(selection);
 		}
 	}
-	
+
 	private boolean shouldNotExit() {
 		return !exit;
 	}
 	private void searchByLicenceNo() throws SQLException {
 		String keyword;
 		keyword = System.console().readLine("Enter Licence Number: ");
-		search.queryGeneralInfoByLicenceNo(keyword);
+		// If return code is true, Person does not exist
+		if(search.queryGeneralInfoByLicenceNo(keyword) == true) {
+			System.console().printf("Sorry, the licence number does not exist in the database. Returning...\n");
+			System.out.println();
+			return;
+		}
+		
 	}
 	private void searchByName() throws SQLException {
 		String keyword;
 		keyword = System.console().readLine("Enter Name: ");
-		search.queryGeneralInfoByName(keyword);
+		// If return code is true, Person does not exist
+		if(search.queryGeneralInfoByName(keyword) == true) {
+			System.console().printf("Sorry, the person does not exist in the database. Returning...\n");
+			System.out.println();
+			return;
+		}
 	}
 
 }

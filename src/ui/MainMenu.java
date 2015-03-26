@@ -80,7 +80,7 @@ public class MainMenu {
 				v=new ViolationView(db);
 				break;
 			case 5:
-				v=new SearchView();
+				v=new SearchView(db);
 				break;
 			case 6:
 				exit=true;

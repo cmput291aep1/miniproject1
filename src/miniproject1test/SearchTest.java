@@ -40,17 +40,17 @@ public class SearchTest {
 		
 	}
 	
-	//@Test
+	@Test
 	// Use case query violation by SIN
 	public void testSearchViolationBySIN() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
 		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
 		Search search = new Search(mgr);
-		search.queryViolationBySIN("SIN1");
+		search.queryViolationBySIN("SIN5");
 	}
 	
-	//@Test
+	@Test
 	// Use case query violation by Licence number
 	public void testSearchViolationByLicenceNo() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
@@ -62,7 +62,7 @@ public class SearchTest {
 		
 	}
 	
-	//@Test
+	@Test
 	// Use case query vehicle history by vehicle serial number
 	public void testSearchVehicleHistBySerialNo() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
@@ -70,7 +70,7 @@ public class SearchTest {
 		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
 		Search search = new Search(mgr);
 
-		search.queryVehicleHistBySerialNo("S01");
+		search.queryVehicleHistBySerialNo("S02a");
 		
 	}
 	
@@ -104,7 +104,7 @@ public class SearchTest {
 		mgr.sendUpdate(update);
 	}
 	
-	@Test
+	//@Test
 	public void testVRecSend() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
