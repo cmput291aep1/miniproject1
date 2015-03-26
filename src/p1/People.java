@@ -45,14 +45,14 @@ public class People extends Model {
 	public double getHeight() {
 		return this.height;
 	}
-	public void setHeight(int height) {
+	public void setHeight(Double height) {
 		this.height = height;
 	}
 	public double getWeight() {
 		return this.weight;
 	}
-	public void setWeight(int weight) {
-		this.weight = weight;
+	public void setWeight(double d) {
+		this.weight = d;
 	}
 	public String getEyecolor() {
 		return this.eyecolor;

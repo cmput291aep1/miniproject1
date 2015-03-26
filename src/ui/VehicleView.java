@@ -34,7 +34,7 @@ public class VehicleView implements View {
 				success=true;
 			} catch (NumberFormatException e) {
 				success=false;
-				String response=System.console().readLine("Not a Number.Make a correction or abandon?(y\n)");
+				String response=System.console().readLine("Not a Date.Make a correction(y) or abandon (n)?(y\n)");
 				if(!response.equalsIgnoreCase("y")){
 					success=true;
 				}
