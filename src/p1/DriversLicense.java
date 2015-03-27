@@ -58,6 +58,7 @@ public class DriversLicense extends Model {
 		return getPhotoFilename();
 	}
 	public void setPhoto(String photo) {
+		hasPicture=true;
 		this.photoFileName = photo;
 	}
 	public Date getIssuing_date() {
@@ -77,7 +78,11 @@ public class DriversLicense extends Model {
 		if(hasPicture){
 			return generateInsert("drive_licence","licence_no","sin","class","photo","issuing_date","expiring_date")+" "+encapsulate("'"+licence_no+"','"+sin+"','"+dclass+"',?"+",TO_DATE('"+issuing_date+"','YYYY-MM-DD')"+",TO_DATE('"+expiring_date+"','YYYY-MM-DD')");
 		}
-		return generateInsert("drive_licence","licence_no","sin","class","issuing_date","expiring_date")+" "+encapsulate("'"+licence_no+"','"+sin+"','"+dclass+"','"+issuing_date+"','"+expiring_date+',');
+		return generateInsert("drive_licence","licence_no","sin","class","issuing_date","expiring_date")+" "+encapsulate("'"+licence_no+"','"+sin+"','"+dclass+"',"+"TO_DATE('"+issuing_date+"','YYYY-MM-DD')"+","+"TO_DATE('"+expiring_date+"','YYYY-MM-DD')");
+	}
+	public void invalidatePicture() {
+		hasPicture=false;
+		
 	}
 
 }

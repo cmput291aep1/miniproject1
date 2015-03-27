@@ -74,7 +74,7 @@ public class MainMenu {
 				v=new AutoTransView(db);
 				break;
 			case 3:
-				v=new DLView();
+				v=new DLView(db);
 				break;
 			case 4:
 				v=new ViolationView(db);
