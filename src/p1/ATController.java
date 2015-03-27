@@ -90,9 +90,8 @@ public class ATController {
 
 	private boolean VehicleNotExists() {
 		try {
-			ResultSet rs=db.sendQuery("select * from vehicle where vehicle_id='"+at.getVehicle_id()+"'");
+			ResultSet rs=db.sendQuery("select * from vehicle where serial_no='"+at.getVehicle_id()+"'");
 			boolean failed=!rs.next();
-			rs.close();
 			return failed;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

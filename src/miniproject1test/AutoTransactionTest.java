@@ -38,6 +38,12 @@ public class AutoTransactionTest {
 	@After
 	public void tearDown() throws SQLException{
 		try {
+			db.sendUpdate("DROP TABLE owner");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
 			db.sendUpdate("DROP TABLE auto_sale");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -97,6 +103,7 @@ public class AutoTransactionTest {
 		atcon.submit();
 		
 		ResultSet rs=db.sendQuery("SELECT * FROM auto_sale");
+		if(rs.next()){
 		
 		assertEquals(rs.getInt(rs.findColumn("transaction_id")),5678);
 		assertEquals(rs.getString("SELLER_ID".toLowerCase()).trim(),"534 411 780");
@@ -106,14 +113,14 @@ public class AutoTransactionTest {
 		assertEquals(rs.getString("VEHICLE_ID".toLowerCase()).trim(), "12345");
 		rs.close();
 		
+		}
 		atcon.setSellerID("1234");
 		
 		atcon.submit();
 		
 		atcon.setSellerID(at.getSeller_id());
 		atcon.setVehicleID("asdasdadsd");
-		
-		//atcon.submit();
+		atcon.submit();
 	}
 	private void setUpTable() throws SQLException, ClassNotFoundException{
 		db.sendUpdate("CREATE TABLE vehicle_type (type_id integer,type CHAR(10),PRIMARY KEY (type_id))");
@@ -123,7 +130,20 @@ public class AutoTransactionTest {
 		db.sendUpdate("CREATE TABLE  people (sin CHAR(15),name VARCHAR(40),height number(5,2),weight number(5,2),eyecolor VARCHAR (10),haircolor VARCHAR(10),addr VARCHAR2(50),gender CHAR,birthday DATE,PRIMARY KEY (sin),CHECK (gender IN ('m', 'f')))");
 		populatePeople();
 		db.sendUpdate("CREATE TABLE auto_sale (transaction_id  int,seller_id CHAR(15),buyer_id CHAR(15),vehicle_id CHAR(15), s_date date,price numeric(9,2),PRIMARY KEY (transaction_id),FOREIGN KEY (seller_id) REFERENCES people,FOREIGN KEY (buyer_id) REFERENCES people,FOREIGN KEY (vehicle_id) REFERENCES vehicle)");
-		}
+		db.sendUpdate("CREATE TABLE owner (owner_id CHAR(15),vehicle_id CHAR(15),is_primary_owner  CHAR(1),PRIMARY KEY (owner_id, vehicle_id),FOREIGN KEY (owner_id) REFERENCES people,FOREIGN KEY (vehicle_id) REFERENCES vehicle,CHECK ( is_primary_owner IN ('y', 'n')))");
+		populateOwnerTable();
+	}
+	
+	private void populateOwnerTable() throws SQLException {
+		ResultSet rs = db.sendQuery("select owner_id,vehicle_id,is_primary_owner from owner");
+		rs.moveToInsertRow();
+		rs.updateString("owner_id","534 411 780");
+		rs.updateString("vehicle_id","12345");
+		rs.updateString("is_primary_owner","y");
+		rs.insertRow();
+
+	}
+
 	private void populatePeople() throws SQLException {
 		db.sendUpdate("INSERT INTO people(SIN,NAME,HEIGHT,WEIGHT,EYECOLOR,HAIRCOLOR,ADDR,GENDER,BIRTHDAY) VALUES ('534 411 780','James',1.84,94.6,'blue','black','3220 Victoria Park Ave, Toronto, ON M2J 3T7','m',TO_DATE('25-08-85','DD-MM-YYYY'))");
 		db.sendUpdate("INSERT INTO people(SIN,NAME,HEIGHT,WEIGHT,EYECOLOR,HAIRCOLOR,ADDR,GENDER,BIRTHDAY) VALUES ('630 708 949','Alex',1.75,105,'brown','auburn','4351 Merivale Road,Stittsville,ON K2S 1B9','f',TO_DATE('08-03-85','DD-MM-YYYY'))");

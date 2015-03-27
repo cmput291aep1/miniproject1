@@ -4,18 +4,6 @@ import jdbc.JDBC;
 import p1.ATController;
 
 public class AutoTransView implements View {
-/*	CREATE TABLE auto_sale (
-			  transaction_id  int,
-			  seller_id   CHAR(15),
-			  buyer_id    CHAR(15),
-			  vehicle_id  CHAR(15),
-			  s_date      date,
-			  price       numeric(9,2),
-			  PRIMARY KEY (transaction_id),
-			  FOREIGN KEY (seller_id) REFERENCES people,
-			  FOREIGN KEY (buyer_id) REFERENCES people,
-			  FOREIGN KEY (vehicle_id) REFERENCES vehicle
-			);*/
 	private ATController at;
 	public AutoTransView(JDBC db) {
 		at=new ATController(db);
@@ -63,22 +51,22 @@ public class AutoTransView implements View {
 		
 	}
 	private void getVehicleID() {
-		at.setVehicleID(System.console().readLine("Vehicle ID"));
+		at.setVehicleID(System.console().readLine("Vehicle ID: "));
 		
 	}
 	private void getBuyerID() {
-		at.setBuyerID(System.console().readLine("Buyer ID"));
+		at.setBuyerID(System.console().readLine("Buyer ID: "));
 		
 	}
 	private void getSellerID() {
-		at.setSellerID(System.console().readLine("Seller ID"));
+		at.setSellerID(System.console().readLine("Seller ID: "));
 		
 	}
 	private void getTransactionID() {
 		boolean success=false;
 		while(!success){
 			try {
-				at.setTransactionID(System.console().readLine("Transaction ID"));
+				at.setTransactionID(System.console().readLine("Transaction ID: "));
 				success=true;
 			} catch (NumberFormatException e) {
 				success=false;

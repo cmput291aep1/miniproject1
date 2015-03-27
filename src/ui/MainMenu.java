@@ -53,7 +53,7 @@ public class MainMenu {
 		while(shouldNotExit()){
 			int selection;
 			try {
-				selection = Integer.parseInt(System.console().readLine("Main Menu\nRegister a New vehicle(1)\nRecord a"
+				selection = Integer.parseInt(System.console().readLine("\n\nMain Menu\nRegister a New vehicle(1)\nRecord a"
 						+ " new AutoTransaction(2)\nRegister a new Drivers License(3)\nRecord A Trafic Violation(4)\n"
 						+ "Perform a Search(5)\nExit(6)\nPlease make a selection: "));
 			} catch (NumberFormatException e) {
