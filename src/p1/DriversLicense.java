@@ -17,9 +17,9 @@ public class DriversLicense extends Model {
 	}
 	public DriversLicense(String licence_no, String sin, String dclass,
 			String photo, Date issuing_date, Date expiring_date) {
-		this.licence_no = licence_no.toLowerCase();
-		this.sin = sin.toLowerCase();
-		this.dclass = dclass.toLowerCase();
+		this.licence_no = licence_no;
+		this.sin = sin;
+		this.dclass = dclass;
 		this.photoFileName = photo;
 		this.issuing_date = issuing_date;
 		this.expiring_date = expiring_date;
@@ -44,7 +44,7 @@ public class DriversLicense extends Model {
 		return dclass;
 	}
 	public void setDclass(String dclass) {
-		this.dclass = dclass.toLowerCase();
+		this.dclass = dclass;
 	}
 	@Override
 	public boolean hasBlob(){

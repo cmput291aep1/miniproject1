@@ -61,7 +61,7 @@ public class ATController {
 				}
 			}
 			try {
-				db.sendUpdate("delete from owner where vehicle_id='"+at.getVehicle_id()+"'");
+				db.sendUpdate("delete from owner where UPPER(vehicle_id)=UPPER('"+at.getVehicle_id()+"')");
 				ResultSet rs=db.sendQuery("select owner_id,vehicle_id,is_primary_owner from owner");
 				rs.moveToInsertRow();
 				rs.updateString("owner_id",buyer.getSIN());
@@ -90,7 +90,7 @@ public class ATController {
 		//vehicle( serial_no, maker, model, year, color, type_id )
 		//owner(owner_id, vehicle_id, is_primary_owner)
 		try {
-			ResultSet rs=db.sendQuery("select * from owner where owner_id='"+seller.getSIN()+"' and vehicle_id='"+at.getVehicle_id()+"'");
+			ResultSet rs=db.sendQuery("select * from owner where UPPER(owner_id)=UPPER('"+seller.getSIN()+"') and UPPER(vehicle_id)=UPPER('"+at.getVehicle_id()+"')");
 			boolean failed=!rs.next();
 			rs.close();
 			return failed;
@@ -102,7 +102,7 @@ public class ATController {
 
 	private boolean VehicleNotExists() {
 		try {
-			ResultSet rs=db.sendQuery("select * from vehicle where serial_no='"+at.getVehicle_id()+"'");
+			ResultSet rs=db.sendQuery("select * from vehicle where UPPER(serial_no)=UPPER('"+at.getVehicle_id()+"')");
 			boolean failed=!rs.next();
 			return failed;
 		} catch (SQLException e) {

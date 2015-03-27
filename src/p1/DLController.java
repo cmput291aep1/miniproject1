@@ -63,7 +63,7 @@ public class DLController {
 	}
 	private boolean personHasLicence() {
 		try {
-			ResultSet rs=db.sendQuery("select * from drive_licence where sin='"+driver.getSIN()+"'");
+			ResultSet rs=db.sendQuery("select * from drive_licence where UPPER(sin)=UPPER('"+driver.getSIN()+"')");
 			boolean failed=rs.next();
 			rs.close();
 			return failed;
