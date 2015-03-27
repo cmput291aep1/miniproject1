@@ -57,7 +57,19 @@ public class ATController {
 				}
 				else{
 					System.out.println(e.getMessage());
+					return;
 				}
+			}
+			try {
+				db.sendUpdate("delete from owner where vehicle_id='"+at.getVehicle_id()+"'");
+				ResultSet rs=db.sendQuery("select owner_id,vehicle_id,is_primary_owner from owner");
+				rs.moveToInsertRow();
+				rs.updateString("owner_id",buyer.getSIN());
+				rs.updateString("vehicle_id",at.getVehicle_id());
+				rs.updateString("is_primary_owner","y");
+				rs.insertRow();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
 			}
 		}
 		
