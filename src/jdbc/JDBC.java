@@ -71,6 +71,7 @@ public class JDBC
 		
 		// Execute update
 		stmt.executeUpdate(update);
+		con.commit();
 	}
 	public void sendModelinfo(Model m) throws SQLException, FileNotFoundException{
 		if(m.hasBlob()){
