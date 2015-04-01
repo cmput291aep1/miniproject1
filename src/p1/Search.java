@@ -24,10 +24,15 @@ public class Search
 	}
 
 	public boolean queryGeneralInfoByName(String searchName) throws SQLException {
+		System.out.println("Search Name: " + searchName);
 		query1 = "select p.name, d.licence_no, p.addr, p.birthday, d.class, dc.description, d.expiring_date " +
 				"from people p, drive_licence d, driving_condition dc, restriction r " +
-				"where p.sin=d.sin and d.licence_no=r.licence_no and dc.c_id=r.r_id and lower(p.name)="+ "'" + searchName.toLowerCase() + "'";
+				"where p.sin=d.sin and d.licence_no=r.licence_no and dc.c_id=r.r_id and p.name='" + searchName + "'";
+		
 		ResultSet rs = mgr.sendQuery(query1);
+//		if (rs.next()!=true) {
+//			System.out.println("No Results");
+//		}
 		ResultSet rsCheck = mgr.sendQuery("select * from people where lower(name)="+"'"+searchName.toLowerCase()+"'");
 		boolean exists = rsCheck.next();
 		boolean error = false;
@@ -48,7 +53,7 @@ public class Search
 				"from people p, drive_licence d, driving_condition dc, restriction r " +
 				"where p.sin=d.sin and d.licence_no=r.licence_no and dc.c_id=r.r_id and lower(d.licence_no)=" + "'" + searchLicenceNo.toLowerCase() + "'";
 		ResultSet rs = mgr.sendQuery(query2);
-		ResultSet rsCheck = mgr.sendQuery("select * from drive_licence where lower(licence_no)="+"'"+searchLicenceNo.toLowerCase()+"'");
+		ResultSet rsCheck = mgr.sendQuery("select * from drive_licence where lower(licence_no)="+"'"+searchLicenceNo+"'");
 		boolean exists = rsCheck.next();
 		boolean error = false;
 		if (exists != true) {
@@ -121,16 +126,18 @@ public class Search
 		}
 	}
 	
-	
+	//select p.name, d.licence_no, p.addr, p.birthday, d.class, dc.description, d.expiring_date 
 	private void printGeneralInfo(ResultSet rs) throws SQLException {
-		System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n","Name", "Licence_No", "Addr", "Birthday", "Class", "Expiring_Date", "Description");
+		rs.beforeFirst();
+		System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n","Name", "Licence_No", "Addr", "Birthday", "Class", "Description", "Expiry_Date");
 		while(rs.next()){
-			System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n", rs.getString("name"),rs.getString("Licence_No"),rs.getString("Addr"),rs.getString("Birthday"),rs.getString("Class"),rs.getString("Expiring_Date"),rs.getString("Description"));
+			System.out.printf("%-40s%-15s%-50s%-22s%-10s%-22s%-1024s\n", rs.getString("Name"),rs.getString("Licence_No"),rs.getString("Addr"),rs.getString("Birthday"),rs.getString("Class"),rs.getString("description"),rs.getString("expiring_date"));
 		}
 		rs.close();
 	}
 	
 	private void printViolations(ResultSet rs) throws SQLException {
+		rs.beforeFirst();
 		if (rs.next() == false) {
 			System.out.println("No Violation Records Found.");
 			System.out.println();
@@ -145,6 +152,8 @@ public class Search
 	}
 	
 	private void printVehicleHistory(ResultSet rs1, ResultSet rs2) throws SQLException {
+		rs1.beforeFirst();
+		rs2.beforeFirst();
 		System.out.printf("%-21s%-17s%-10s\n", "# of Changed Hand", "Average Price", "# of Violations");
 		while(rs1.next()&rs2.next()) {
 			System.out.printf("%-21s%-17s%-10s\n", rs1.getInt("TotalChangedHand"), rs1.getFloat("AveragePrice"), rs2.getInt("TotalViolations"));

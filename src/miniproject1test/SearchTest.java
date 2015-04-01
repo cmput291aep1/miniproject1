@@ -18,25 +18,25 @@ import p1.VRecController;
 
 public class SearchTest {
 	
-	//@Test
+	@Test
 	// Use case query general information by name
 	public void testSearchGeneralInfoByName() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
+		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS",username,password);
 		Search search = new Search(mgr);
-		search.queryGeneralInfoByName("DANTE");
+		search.queryGeneralInfoByName("James");
 		
 	}
 	
-	//@Test
+	@Test
 	// Use case query general information by licence number
 	public void testSearchGeneralInfoByLicenceNo() throws SQLException, ClassNotFoundException {
 		String username = "edrick";
 		String password = "cwielkisbl7";
-		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@localhost:1525:CRS",username,password);
+		JDBC mgr = new JDBC("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS",username,password);
 		Search search = new Search(mgr);
-		search.queryGeneralInfoByLicenceNo("lll 111");
+		search.queryGeneralInfoByLicenceNo("123456");
 		
 	}
 	
@@ -62,7 +62,7 @@ public class SearchTest {
 		
 	}
 	
-	@Test
+	//@Test
 	// Use case query vehicle history by vehicle serial number
 	public void testSearchVehicleHistBySerialNo() throws SQLException, ClassNotFoundException {
 		String username = "edrick";

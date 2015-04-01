@@ -184,13 +184,13 @@ public class ViolationView implements View {
 				System.out.println(e.getMessage());
 //				System.console().printf("Violation record failed!\nInvalid inputs were provided, please try again.\n");
 			}
-			System.console().printf("Violation recorded.\n");
-
+			
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid Input!\n");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.console().printf("Violation recorded.\n");
 		System.out.println();
 
 	}

@@ -85,14 +85,14 @@ public class Ticket extends Model {
 		return this.place;
 	}
 	public void setPlace(String place) {
-		this.place = place.toLowerCase();
+		this.place = place;
 	}
 	
 	public String getDescription() {
 		return this.description;
 	}
 	public void setDescription(String description) {
-		this.description = description.toLowerCase();
+		this.description = description;
 	}
 	
 	@Override
